@@ -17,5 +17,6 @@ Contributors:
 - Tristan Holup: tristan.d.holup@vanderbilt.edu
 - Akaash Seemakurty: akaash.seemakurty@vanderbilt.edu
 
-CS 4278 @ Vanderbilt University (Fall 2022) \
+CS 4278 @ Vanderbilt University (Fall 2022)
+
 Advisor: Professor Vikash Singh
