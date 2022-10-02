@@ -13,6 +13,7 @@ Here are the frameworks we plan on using:
 - S3 buckets (Photo Storage/Backend)
 
 Resources:
+- Best Resource: Django React Tutorial Series (https://www.youtube.com/playlist?list=PLzMcBGfZo4-kCLWnGmK0jUBmGLaJxvi4j)
 - How to store photos in your app's backend (https://www.youtube.com/watch?v=g5tqEh8wAio)
 
 Contributors:
