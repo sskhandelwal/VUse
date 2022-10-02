@@ -11,6 +11,9 @@ Here are the frameworks we plan on using:
 - Material UI (Frontend Styling)
 - MySQL (Database)
 
+Resources:
+- How to store photos in your app's backend (https://www.youtube.com/watch?v=g5tqEh8wAio)
+
 Contributors:
 - Naumaan Hussain: naumaan.m.hussain@vanderbilt.edu
 - Shiv Khandelwal: shiv.s.khandelwal@vanderbilt.edu
