@@ -1,0 +1,6 @@
+﻿LISTING_NUMBER,LISTING_TIMESTAMP,IS_SOLD,IS_REMOVED,NAME,PRICE,LOCATION,SELLER,DESCRIPTION,CONDITION,PHOTO1_EXISTS,PHOTO1_URL,PHOTO2_EXISTS,PHOTO2_URL,PHOTO3_EXISTS,PHOTO3_URL,PHOTO4_EXISTS,PHOTO4_URL,PHOTO5_EXISTS,PHOTO5_URL
+1,2020-08-26  01:37:18,1,0,TV,100,Kissam (Moore),tmoney,its huge,Used - Good Condition,1,https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6448/6448758ld.jpg,0,null,0,null,0,null,0,null
+2,2021-08-26  01:37:19,1,0,Sofa,55,EBI,amoney,very cushiony,Used - OK Condition,1,"https://media.wired.com/photos/5f6e51ec1518e2504fb04020/191:100/w_2580,c_limit/Gear-Eliot-sofa-SOURCE-Joybird.jpg",0,null,0,null,0,null,0,null
+3,2022-08-26  13:37:20,0,1,Jack Harlow Ticket,70,North,jmoney,hes hype,null,1,https://assets.teenvogue.com/photos/629e7b1323f750494456b566/master/w_1600%2Cc_limit/TV_JuneCover2022_Jack_COVER%2520(1).jpg,1,https://i.ytimg.com/vi/5poTREn8xL8/maxresdefault.jpg,0,null,0,null,0,null
+4,2022-08-26  13:37:21,1,0,Book,12,Hank Ingram,nmoney,great read,New,1,https://images.moviesanywhere.com/e3c878e40af8261babf5111b2295a3de/743951f3-8533-4f38-90ce-a8f643be9241.jpg,0,null,0,null,0,null,0,null
+5,2022-08-27  13:37:22,0,0,Hat,8,Elliston 23,shmoney,swaggy,New,1,https://i.ebayimg.com/images/g/q~AAAOSw48ZeUW7X/s-l400.jpg,0,null,0,null,0,null,0,null
