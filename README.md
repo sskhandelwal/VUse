@@ -10,6 +10,7 @@ Here are the frameworks we plan on using:
 - React Native (Frontend)
 - Material UI (Frontend Styling)
 - MySQL (Database)
+- S3 buckets (Photo Storage/Backend)
 
 Resources:
 - How to store photos in your app's backend (https://www.youtube.com/watch?v=g5tqEh8wAio)
