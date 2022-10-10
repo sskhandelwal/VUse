@@ -1,5 +1,5 @@
+from ast import keyword
 from django.shortcuts import render
-from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -28,7 +28,12 @@ def getRoutes(request):
 
 @api_view(['GET'])
 def getProducts(request):
-    products = Product.objects.all()
+    query = request.query_params.get('keyword')
+    if query == None:
+        query = ''
+    
+    products = Product.objects.filter(name__icontains=query).order_by('-createdAt')
+    # products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 

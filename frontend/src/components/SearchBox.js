@@ -6,14 +6,14 @@ import { useNavigate } from 'react-router-dom'
 function SearchBox() {
     const [keyword, setKeyword] = useState('')
 
-    let history = useNavigate()
+    let navigate = useNavigate()
 
     const submitHandler = (e) => {
         e.preventDefault()
-        if (keyword) {
-            history.push(`/?keyword=${keyword}&page=1`)
+        if (keyword !== '') {
+            navigate(`/?keyword=${keyword}&page=1`)
         } else {
-            history.push(history.push(history.location.pathname))
+            navigate(navigate(navigate.location.pathname))
         }
     }
     return (
