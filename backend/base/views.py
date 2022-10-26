@@ -31,7 +31,8 @@ def getProducts(request):
     query = request.query_params.get('keyword')
     if query == None:
         query = ''
-    
+    # query = 'com'
+
     products = Product.objects.filter(name__icontains=query).order_by('-createdAt')
     # products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
