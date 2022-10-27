@@ -1,19 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
+import { Link, useParams, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { listProductDetails } from '../actions/productActions'
 
-function ProductScreen() {
+function ProductScreen(history) {
+
+
+  const { id } = useParams()
+  const dispatch = useDispatch()
+  const productDetails = useSelector(state => state.productDetails)
+  const { loading, error, product } = productDetails
+
+  useEffect(() => {
+    dispatch(listProductDetails(id))
+  }, [dispatch])
+
+  let navigate = useNavigate()
+  const addToCartHandler = () => {
+    navigate(`/cart/${id}`)
+  }
+
   return (
     <div>
-      <h1>55 in. VIZIO HD Smart TV</h1>
-      <img src="https://target.scene7.com/is/image/Target/GUEST_ef3bc6d4-8f11-4fe0-8488-e137340b4a1e" alt="Sample Product Image"></img>
+      <Link to='/' className='btn btn-light my-3'>Go Back</Link>
+      <h1>{product.name}</h1>
+      <img src={product.image} alt={product.name} fluid />
       <body>
-        Price: $245 <br></br>
-        Condition: Used (Good Condition) <br></br>
-        Location: Kissam (Warren) <br></br>
-        Seller: Aaron Chen <br></br>
-        Contact Info: (201) 555-7816 <br></br>
+        Price: {product.price} <br></br>
+        Description: {product.description} <br></br>
+        Location: {product.location} <br></br>
+        Email to Contact: {product.email} <br></br>
       </body>
       <Button
+        onClick={addToCartHandler}
         type='submit'
         variant='outline-success'
         className='p-2'
