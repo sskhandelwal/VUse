@@ -22,35 +22,6 @@ function ProductScreen(history) {
     navigate(`/cart/${id}`)
   }
 
-  // return (
-  //   <div>
-  //     <Link to='/' className='btn btn-light my-3'>Go Back</Link>
-  //     <h1>{product.name}</h1>
-  //     <img src={product.image} alt={product.name} fluid />
-  //     <body>
-  //       Price: {product.price} <br></br>
-  //       Description: {product.description} <br></br>
-  //       Location: {product.location} <br></br>
-  //       Email to Contact: {product.email} <br></br>
-  //     </body>
-  //     <Button
-  //       onClick={addToCartHandler}
-  //       type='submit'
-  //       variant='outline-success'
-  //       className='p-2'
-  //     >
-  //       Add to cart
-  //     </Button>
-  //     <br></br>
-  //     <Button
-  //       type='submit'
-  //       variant='outline-success'
-  //       className='p-2'
-  //     >
-  //       Add to watchlist
-  //     </Button>
-  //   </div>
-  // )
   return (
     <div>    
       <Link to='/' className='btn btn-light my-3'><ArrowLeft size={20} /> Go Back</Link>
