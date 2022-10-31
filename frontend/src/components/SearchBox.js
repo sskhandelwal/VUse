@@ -10,29 +10,23 @@ function SearchBox() {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        if (keyword !== '') {
-            navigate(`/?keyword=${keyword}&page=1`)
+        if (keyword) {
+            navigate(`/?keyword=${keyword}`)
         } else {
-            navigate(navigate(navigate.location.pathname))
+            navigate('/')
         }
     }
     return (
-        <Form onSubmit={submitHandler} inline>
-            <Form.Control
-                type='text'
-                name='q'
-                onChange={(e) => setKeyword(e.target.value)}
-                className='mr-sm-2 ml-sm-5'
-            ></Form.Control>
-
-            <Button
-                type='submit'
-                variant='outline-success'
-                className='p-2'
-            >
-                Submit
-            </Button>
-        </Form>
+        <div class='search-container'>
+            <form onSubmit={submitHandler}>
+                <input
+                    type='text'
+                    placeholder='Search...'
+                    onChange={(e) => setKeyword(e.target.value)}
+                ></input>
+                <button type='submit'>Submit</button>
+            </form>
+        </div>
     )
 }
 

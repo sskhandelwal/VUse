@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Form } from 'react-bootstrap'
+import { Button, Col, Form, Row } from 'react-bootstrap'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails } from '../actions/productActions'
+import { ArrowLeft } from 'react-bootstrap-icons';
 
 function ProductScreen(history) {
 
@@ -21,33 +22,72 @@ function ProductScreen(history) {
     navigate(`/cart/${id}`)
   }
 
+  // return (
+  //   <div>
+  //     <Link to='/' className='btn btn-light my-3'>Go Back</Link>
+  //     <h1>{product.name}</h1>
+  //     <img src={product.image} alt={product.name} fluid />
+  //     <body>
+  //       Price: {product.price} <br></br>
+  //       Description: {product.description} <br></br>
+  //       Location: {product.location} <br></br>
+  //       Email to Contact: {product.email} <br></br>
+  //     </body>
+  //     <Button
+  //       onClick={addToCartHandler}
+  //       type='submit'
+  //       variant='outline-success'
+  //       className='p-2'
+  //     >
+  //       Add to cart
+  //     </Button>
+  //     <br></br>
+  //     <Button
+  //       type='submit'
+  //       variant='outline-success'
+  //       className='p-2'
+  //     >
+  //       Add to watchlist
+  //     </Button>
+  //   </div>
+  // )
   return (
-    <div>
-      <Link to='/' className='btn btn-light my-3'>Go Back</Link>
-      <h1>{product.name}</h1>
-      <img src={product.image} alt={product.name} fluid />
-      <body>
-        Price: {product.price} <br></br>
+    <div>    
+      <Link to='/' className='btn btn-light my-3'><ArrowLeft size={20} /> Go Back</Link>
+      <div class = "d-flex flex-row bd-highlight mb-3">
+      <img src={product.image} alt={product.name} rounded fluid/>
+      <Col xs={1}></Col>
+      <div class = "d-inline-flex-row p-2">
+      <h1 body>{product.name}</h1>
+      <br></br>
+      <body className="body text-dark mb-5">
+        Price: ${product.price} <br></br>
+        <br></br>
         Description: {product.description} <br></br>
+        <br></br>
         Location: {product.location} <br></br>
-        Email to Contact: {product.email} <br></br>
+        <br></br>
+        Email to Contact: <Link to='#' onClick={(e) => { e.preventDefault(); window.location.href = `mailto:${product.email}`; }}>{product.email} </Link><br></br>
       </body>
+      
       <Button
         onClick={addToCartHandler}
         type='submit'
-        variant='outline-success'
-        className='p-2'
+        variant='outline-warning'
+        className='button rounded textColor'
       >
         Add to cart
       </Button>
-      <br></br>
+      
       <Button
         type='submit'
-        variant='outline-success'
-        className='p-2'
+        variant='outline-warning'
+        className='ms-2 rounded button textColor'
       >
         Add to watchlist
       </Button>
+      </div>
+      </div>
     </div>
   )
 }

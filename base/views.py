@@ -29,6 +29,7 @@ def getRoutes(request):
 @api_view(['GET'])
 def getProducts(request):
     query = request.query_params.get('keyword')
+
     if query == None:
         query = ''
     # query = 'com'
