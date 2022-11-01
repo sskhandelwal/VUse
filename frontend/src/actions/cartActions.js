@@ -1,13 +1,15 @@
 import axios from 'axios'
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstants'
 
+// This function adds an item with a specific id to the cart
 export const addToCart = (id) => async (dispatch, getState) => {
-    localStorage.setItem('cartItems', 'hi')
-
+    //get the product infomation from the backend and assign it to data
     const { data } = await axios.get(`/api/products/${id}`)
 
     dispatch({
         type: CART_ADD_ITEM,
+
+        // dispatch the data with the below payload
         payload: {
             product: data._id,
             name: data.name,
@@ -15,6 +17,8 @@ export const addToCart = (id) => async (dispatch, getState) => {
             price: data.price,
         }
     })
+
+    //put the data in local storage
     localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
 

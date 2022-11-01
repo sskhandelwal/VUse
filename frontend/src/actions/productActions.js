@@ -9,6 +9,7 @@ import {
     PRODUCT_DETAILS_FAIL,
 } from '../constants/productConstants'
 
+//dispatch the products with the appropriate keyword
 export const listProducts = (keyword = '') => async (dispatch) => {
     
     try {

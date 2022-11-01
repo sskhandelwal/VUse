@@ -18,6 +18,7 @@ function ProductScreen(history) {
   }, [dispatch])
 
   let navigate = useNavigate()
+  //navigate to the page where the url has the id of the item
   const addToCartHandler = () => {
     navigate(`/cart/${id}`)
   }

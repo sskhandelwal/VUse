@@ -1,27 +1,62 @@
 import React from 'react'
-import SearchBox from './SearchBox'
-import { Navbar, Nav, Container, Row, NavDropdown } from 'react-bootstrap'
+import { Nav, Navbar, Container, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
-
+import SearchBox from './SearchBox'
 
 function Header() {
+  const userInfo = true;
+
   return (
-    <div className='topnav'>
+    <Navbar className='navbar-custom'>
+      {/* VUSE Home Link */}
       <LinkContainer to='/'>
-          <Navbar.Brand>VUse</Navbar.Brand>
+        <Navbar.Brand>
+          VUse
+        </Navbar.Brand>
       </LinkContainer>
-      {/* <a className='bold' href='/'>VUse</a> */}
+
+      {/* Navigation to other pages */}
+      <Nav className='ml-auto'>
+        <LinkContainer to='/createlisting'>
+          <Nav.Link>
+            Create Listing
+          </Nav.Link>
+        </LinkContainer>
+
+        <LinkContainer to='/cart'>
+          <Nav.Link>
+            Cart
+          </Nav.Link>
+        </LinkContainer>
+
+        {/* If user is logged in, display dropdown */}
+        {/* Else, display link to login page */}
+        {
+          userInfo ? (
+            // Dropdown menu
+            <NavDropdown title='User Info'>
+              <LinkContainer to='/login'>
+                <NavDropdown.Item>
+                  Profile
+                </NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to='/login'>
+                <NavDropdown.Item>
+                  Logout
+                </NavDropdown.Item>
+              </LinkContainer>
+            </NavDropdown>
+          ) : (
+            // Link to login page
+            <LinkContainer to='/login'>
+              <Nav.Link>Login</Nav.Link>
+            </LinkContainer> 
+          )
+        }
+      </Nav>
+      {/* This is where the search box is displayed */}
       <SearchBox />
-      <a href='/createlisting'>Create Listing</a>
-      {/* <a href='/cart'>Cart</a> */}
-      <LinkContainer to='/cart'>
-          <Nav.Link ><i className="fas fa-shopping-cart"></i>Cart</Nav.Link>
-      </LinkContainer>
-      {/* <a href='/login'>Login</a> */}
-      <LinkContainer to='/login'>
-          <Nav.Link><i className="fas fa-user"></i>Login</Nav.Link>
-      </LinkContainer>
-    </div>
+    </Navbar>
   )
 }
 

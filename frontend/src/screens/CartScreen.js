@@ -12,9 +12,9 @@ function CartScreen({ history }) {
 
   const cart = useSelector(state => state.cart)
   const { cartItems } = cart
-  const scores = [98,45,33,47,100,80];
 
   useEffect(() => {
+    //if the id exists, add it to the cart
     if(productId) {
       dispatch(addToCart(productId))
     }
