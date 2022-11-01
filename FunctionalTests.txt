@@ -1,0 +1,37 @@
+1. Search Functionality:
+  a. Click on the search bar and type in keywords that is listed in the product page and check if it displays results
+  b. Expected result: 
+  There are two cases: 
+    i. Displays results after specific keyword related to the product is found(should show the appropriate picture and information for that product that is being sought after)
+    ii. Displays no results if the keyword you are searching for is not there
+
+2. Individual Product Page:
+  a. Should be able to click on a specific product on the product page 
+  b. Expected Result:
+    i. Once the user clicks on the specific product, they should be able to read all the details for that product(included image for that product, name of the product, description of the product, contact information regarding the product, location on where to pick up the product, and add to cart functionality)
+
+3. Add to cart functionality:
+  a. Once the user clicks on a specific product and reads all the information regarding the product. The user should be able to add a specific product to the cart for purchase.
+  b. Expected Result: 
+    i.One item can be added to the cart
+    ii. Multiple items can be added to the cart
+    
+4. Remove from cart functionality
+  a. If the user does not want an item to be in the cart, they should be able to remove it from the cart.
+  b. Expected Result:
+    i. The user should be able to to click the trashcan button on the ‘Cart’ page and remove the item from the cart
+    
+5. Contact another user functionality
+  a. If a user is interested in the product, they should be able to contact another Vanderbilt student through email
+  b. Expected Result:
+    i. On the individual product page, the user should be able to click the email contact and automatically be directed to send an email to the specific seller.
+
+6. Button Functionality
+  a. The user should be able to click on any button(the GoBack button, VUse button, and more) and encounter no errors
+  b. Expected Result:
+    i. GoBack button: should go to the product page in all situations
+    ii. Click the VUse button: should go to the product page(home page)
+    iii. Create Listing button: should go to where the user can create listing of a product(not functional yet)
+    iv. Cart: Displays the current status of the cart
+
+
