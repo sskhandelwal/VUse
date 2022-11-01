@@ -27,6 +27,7 @@ function LoginScreen() {
 
     const submitHandler = (e) => {
         e.preventDefault()
+        console.log(typeof(password))
         dispatch(login(email, password))
 
     }
@@ -63,7 +64,7 @@ function LoginScreen() {
                 variant='outline-warning'
                 className='button rounded textColor'
             >
-                Submit
+                Sign In
             </Button>
         </Form>
 

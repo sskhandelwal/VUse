@@ -14,13 +14,12 @@ export const login = (email, password) => async (dispatch) => {
 
         const config = {
             headers:{
-                'Content-type': 'application/json'
+                'Content-Type': 'application/json'
             }
         }
+        let userPass =  { 'username':email, 'password':password }
         const { data } = await axios.post(
-            '/api/users/login/',
-            { 'username':email, 'password':password },
-            config
+            '/api/users/login/', userPass, config
         )
 
         dispatch({
@@ -36,4 +35,9 @@ export const login = (email, password) => async (dispatch) => {
             payload: error.message,
         })
     }
+}
+
+export const logout = () => (dispatch) => {
+    localStorage.removeItem('userInfo')
+    dispatch({type:USER_LOGOUT})
 }

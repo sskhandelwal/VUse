@@ -2,9 +2,19 @@ import React from 'react'
 import { Nav, Navbar, Container, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import SearchBox from './SearchBox'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../actions/userActions'
 
 function Header() {
-  const userInfo = true;
+
+  const userLogin = useSelector(state => state.userLogin)
+  const { userInfo } = userLogin;
+
+  const dispatch = useDispatch()
+  
+  const logoutHandler = () => {
+    dispatch(logout())
+  }
 
   return (
     <Navbar className='navbar-custom'>
@@ -34,17 +44,15 @@ function Header() {
         {
           userInfo ? (
             // Dropdown menu
-            <NavDropdown title='User Info'>
-              <LinkContainer to='/login'>
+            <NavDropdown title={userInfo.name} id='username'>
+              <LinkContainer to='/profile'>
                 <NavDropdown.Item>
                   Profile
                 </NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to='/login'>
-                <NavDropdown.Item>
+              <NavDropdown.Item onClick={logoutHandler}>
                   Logout
                 </NavDropdown.Item>
-              </LinkContainer>
             </NavDropdown>
           ) : (
             // Link to login page
