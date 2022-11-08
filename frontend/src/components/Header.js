@@ -50,6 +50,16 @@ function Header() {
                   Profile
                 </NavDropdown.Item>
               </LinkContainer>
+              <LinkContainer to='/myproducts'>
+                <NavDropdown.Item>
+                  My Products
+                </NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to='/orders'>
+                <NavDropdown.Item>
+                  My Orders
+                </NavDropdown.Item>
+              </LinkContainer>
               <NavDropdown.Item onClick={logoutHandler}>
                   Logout
                 </NavDropdown.Item>

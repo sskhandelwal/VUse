@@ -51,6 +51,25 @@ def registerUser(request):
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def updateUserProfile(request):
+    user = request.user
+    serializer = UserSerializerWithToken(user, many=False)
+
+    data = request.data
+
+    user.first_name = data['name']
+    user.first_username = data['email']
+    user.first_email = data['email']
+
+    if data['password'] != '':
+        user.password = make_password(data['password'])
+    
+    user.save()
+
+    return Response(serializer.data)
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getUserProfile(request):
@@ -84,3 +103,27 @@ def getProduct(request, pk):
     product = Product.objects.get(_id=pk)
     serializer = ProductSerializer(product, many=False)
     return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createProduct(request):
+    user = request.user
+    product = Product.objects.create (
+        user = user,
+        name = 'Sample Name',
+        loaction = 'Sample Location',
+        price = 0,
+        brand = 'Sample Brand',
+        category = 'Sample Category',
+        description = ''
+    )
+
+    serializer = ProductSerializer(product, many=False)
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def deleteProduct(request, pk):
+    product = Product.objects.get(_id=pk)
+    product.delete()
+    return Response('Product Deleted')
