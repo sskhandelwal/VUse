@@ -1,54 +1,65 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/Dropdown'
-// import {useState, useEffect} from 'react'
-// import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap'
-// import { useDispatch, useSelector } from 'react-redux'
-// import Loader from '../components/Loader'
-// import { createListing } from '../actions/productActions'
-// import { getUserDetails } from '../actions/userActions'
-// import FormContainer from '../components/FormContainer'
+import { useDispatch, useSelector } from 'react-redux'
+import { listProductDetails, updateProduct } from '../actions/productActions'
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 
 function CreateListingScreen() {
-  // const [name, setName] = useState('')
-  // const [price, setPrice] = useState('')
-  // const [description, setDescription] = useState('')
-  // const [itemLocation, setItemLocation] = useState('')
-  // const [email, setEmail] = useState('')
+  const { id } = useParams()
+  const productId = id
 
-  // const dispatch = useDispatch()
+  const [name, setName] = useState('')
+  const [price, setPrice] = useState(0)
+  const [description, setDescription] = useState('')
+  const [itemLocation, setLocation] = useState('')
+  const [email, setEmail] = useState('')
+  const [itemImage, setImage] = useState('')
 
-  // const userDetails = useSelector(state => state.userDetails)
-  // const { error, loading, user } = userDetails
+  const dispatch = useDispatch()
 
-  // const createListing = useSelector(state => state.createListing)
-  // const { error1, loading1, product } = createListing
+  const productDetails = useSelector(state => state.productDetails)
+  const { product } = productDetails
 
+  const productUpdate = useSelector(state => state.productUpdate)
+  const { success:successUpdate } = productUpdate
 
-  // const userLogin = useSelector(state => state.userLogin)
-  // const { userInfo } = userLogin
+  let navigate = useNavigate()
+  useEffect(() => {
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET })
+      navigate('/myproducts')
+   } else {
+    if (!product.name || product._id !== Number(productId)) {
+      dispatch(listProductDetails(productId))
+    } else {
+      setName(product.name)
+      setPrice(product.price)
+      setDescription(product.description)
+      setLocation(product.location)
+      setEmail(product.email)
+      setImage(product.image)
+    }
+   }
 
-  // let navigate = useNavigate()
-  // useEffect(() => {
-  //     if (!userInfo) {
-  //         navigate('/login/')
-  //     }
-  // }, [userInfo])
+    
+  }, [dispatch, product, productId, successUpdate])
 
-  // const submitHandler = (e) => {
-  //     e.preventDefault()
-  //     dispatch(createListing({ 
-  //       'user':user.name, 
-  //       'name': name,
-  //       'price': price,
-  //       'description': description,
-  //       'itemLocation': itemLocation,
-  //       'email': email,
-  //   }))
-  // }
-
-  
+  const submitHandler = (e) => {
+    e.preventDefault()
+    dispatch(updateProduct({
+      _id: productId,
+      name, 
+      price,
+      description, 
+      itemLocation, 
+      email,
+      itemImage,
+      isBought: false
+    }))
+  }
 
   return (
     <div>
@@ -75,91 +86,82 @@ function CreateListingScreen() {
       <br></br>
 
       {/* buy now listing form */}
-      <Form.Group>
-        <Form.Label>Item name</Form.Label>
-        <Form.Control type='text' placeholder='Enter name...'/>
-        <Form.Label>Item price</Form.Label>
-        <Form.Control type='text' placeholder='Enter price...'/>
-        <Form.Label>Item description</Form.Label>
-        <Form.Control type='text' placeholder='Enter description...'/>
-        <Form.Label>Item location</Form.Label>
-        <Form.Control type='text' placeholder='Enter location...'/>
-        <Form.Label>Contact email</Form.Label>
-        <Form.Control type='email' placeholder='Enter email...'/>
-        <Form.Label>Item picture 1</Form.Label>
-        <Form.Control type='file' placeholder='Upload photo...'/>
-        <Form.Label>Item picture 2</Form.Label>
-        <Form.Control type='file' placeholder='Upload photo...'/>
-        <Form.Label>Item picture 3</Form.Label>
-        <Form.Control type='file' placeholder='Upload photo...'/>
-      </Form.Group>
-      {/* <Form onSubmit={submitHandler}>
-        <Form.Group controlId='item-name'>
-                <Form.Label>Item Name</Form.Label>
-                <Form.Control
-                    required
-                    type='name'
-                    placeholder='Enter Item Name...'
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                >
-                </Form.Control>
-            </Form.Group>
+      <Form onSubmit={submitHandler}>
+        <Form.Group controlId='name'>
+          <Form.Label>Item name</Form.Label>
+          <Form.Control
+            type = 'text'
+            placeholder='Enter name...'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          >
+            </Form.Control>
+        </Form.Group>
 
-            <Form.Group controlId='price'>
-                <Form.Label>Item Price</Form.Label>
-                <Form.Control
-                    required
-                    type='text'
-                    placeholder='Enter Item Price...'
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                >
-                </Form.Control>
-            </Form.Group>
+        <Form.Group controlId='price'>
+          <Form.Label>Item price</Form.Label>
+          <Form.Control
+            type = 'number'
+            placeholder='Enter price...'
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          >
+          </Form.Control>
+        </Form.Group>
 
-            <Form.Group controlId='description'>
-                <Form.Label>Item Description</Form.Label>
-                <Form.Control
-                    type='text'
-                    placeholder='Enter Item Description...'
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                >
-                </Form.Control>
-            </Form.Group>
+        <Form.Group controlId='description'>
+          <Form.Label>Item description</Form.Label>
+          <Form.Control
+            type = 'text'
+            placeholder='Enter description...'
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          >
+          </Form.Control>
+        </Form.Group>
 
-            <Form.Group controlId='location'>
-                <Form.Label>Item Location</Form.Label>
-                <Form.Control
-                    type='text'
-                    placeholder='Enter Item Location...'
-                    value={itemLocation}
-                    onChange={(e) => setItemLocation(e.target.value)}
-                >
-                </Form.Control>
-            </Form.Group>
+        <Form.Group controlId='location'>
+          <Form.Label>Item location</Form.Label>
+          <Form.Control
+            type = 'text'
+            placeholder='Enter location...'
+            value={itemLocation}
+            onChange={(e) => setLocation(e.target.value)}
+          >
+          </Form.Control>
+        </Form.Group>
 
-            <Form.Group controlId='email'>
-                <Form.Label>Contact Email</Form.Label>
-                <Form.Control
-                    type='email'
-                    placeholder='Enter Email...'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                >
-                </Form.Control>
-            </Form.Group>
+        <Form.Group controlId='email'>
+          <Form.Label>Contact email</Form.Label>
+          <Form.Control
+            type = 'text'
+            placeholder='Enter email...'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          >
+          </Form.Control>
+        </Form.Group>
 
-            <Button
-                type='submit'
-                variant='outline-warning'
-                className='button rounded textColor'
-            >
-                Update
-            </Button>
+        <Form.Group controlId='image'>
+          <Form.Label>Item image</Form.Label>
+          <Form.Control
+            type = 'text'
+            placeholder='Enter image...'
+            value={itemImage}
+            onChange={(e) => setImage(e.target.value)}
+          >
+          </Form.Control>
+        </Form.Group>
 
-        </Form> */}
+        <Button
+                  type='submit'
+                  variant='outline-warning'
+                  className='button rounded textColor'
+              >
+                  Confirm
+          </Button>
+        </Form>
+
 
       <div className='buy-now-listing'>
 

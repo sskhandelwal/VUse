@@ -13,9 +13,9 @@ from rest_framework import status
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+import logging
 
 from base import serializer
-
 # Create your views here.
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -58,6 +58,9 @@ def updateUserProfile(request):
     serializer = UserSerializerWithToken(user, many=False)
 
     data = request.data
+    # logging.basicConfig(level=logging.INFO)
+    # logger = logging.getLogger('myapp')
+    # logger.info(request.content_type)
 
     user.first_name = data['name']
     user.first_username = data['email']
@@ -111,12 +114,48 @@ def createProduct(request):
     product = Product.objects.create (
         user = user,
         name = 'Sample Name',
-        loaction = 'Sample Location',
+        location = 'Sample Location',
         price = 0,
         brand = 'Sample Brand',
         category = 'Sample Category',
         description = ''
     )
+
+    serializer = ProductSerializer(product, many=False)
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def updateProduct(request, pk):
+    # logging.basicConfig(level=logging.INFO)
+    # logger = logging.getLogger('myapp')
+    # logger.info(request.content_type)
+    # logger.info(request.data)
+    data = request.data
+    product = Product.objects.get(_id=pk)
+
+    product.name = data['name']
+    product.price = data['price']
+    product.description = data['description']
+    product.location = data['itemLocation']
+    product.email = data['email']
+    product.isBought = data['isBought']
+
+
+    product.save()
+
+    serializer = ProductSerializer(product, many=False)
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def updateBoughtStatus(request, pk):
+    data = request.data
+    product = Product.objects.get(_id=pk)
+
+    product.isBought = data['isBought']
+
+    product.save()
 
     serializer = ProductSerializer(product, many=False)
     return Response(serializer.data)

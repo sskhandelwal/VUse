@@ -14,9 +14,9 @@ function SearchBox() {
         //if the keyword exists, go to a page where the url has they keyword
         //at the end
         if (keyword) {
-            navigate(`/?keyword=${keyword}`)
+            navigate(`/home/?keyword=${keyword}`)
         } else {
-            navigate('/')
+            navigate('/home')
         }
     }
     return (

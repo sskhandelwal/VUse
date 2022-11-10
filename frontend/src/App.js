@@ -11,27 +11,29 @@ import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import MyProductScreen from './screens/MyProductScreen'
+import LandingScreen from './screens/LandingScreen'
 
 function App() {
   return (
     <Router>
       <Header />
-      <main className="py-3">
-        <Container>
+      {/* <main className="py-3">
+        <Container> */}
           <Routes>
-            <Route exact path='/' element={<HomeScreen/>}/>
+            <Route exact path='/' element={<LandingScreen/>}/>
+            <Route exact path='/home' element={<HomeScreen/>}/>
             <Route path='/product/:id' element={<ProductScreen/>}/>
             <Route path='/cart/:id' element={<CartScreen/>}/>
             <Route path='/cart/' element={<CartScreen/>}/>
-            <Route path='/createlisting/' element={<CreateListingScreen/>}/>
+            <Route path='/product/:id/edit' element={<CreateListingScreen/>}/>
             <Route path='/login/' element={<LoginScreen/>}/>
             <Route path='/register/' element={<RegisterScreen/>}/>
             <Route path='/profile/' element={<ProfileScreen/>}/>
             <Route path='/profile/' element={<ProfileScreen/>}/>
             <Route path='/myproducts/' element={<MyProductScreen/>}/>
           </Routes>
-        </Container>
-      </main>
+        {/* </Container>
+      </main> */}
       <Footer/>
     </Router>
   );

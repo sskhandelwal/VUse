@@ -5,6 +5,8 @@ import Loader from '../components/Loader'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../actions/productActions'
 import { useSearchParams } from "react-router-dom";
+import { ProductCard } from "../components/ProductCard"
+import { Grid, Box } from "@mui/material"
 
 function HomeScreen() {
   const dispatch = useDispatch()
@@ -18,21 +20,15 @@ function HomeScreen() {
 
   }, [dispatch, keyword])
 
-
   return (
-    <div>
-        <h1>Latest Products</h1>
-        {loading ? <Loader/>
-          :
-          <Row>
-            {products.map(product => (
-                <Col key={product.id}>
-                    <Product product={product} />
-                </Col>
-            ))}
-        </Row>
-        }
-    </div>
+    <Grid>
+      {products.map(product => (
+        <Grid item>
+          <ProductCard product={ product } />
+        </Grid>
+      ))}
+    </Grid>
+    
   )
 }
 

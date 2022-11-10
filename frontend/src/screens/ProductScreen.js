@@ -3,7 +3,8 @@ import { Button, Col, Form, Row } from 'react-bootstrap'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails } from '../actions/productActions'
-import { ArrowLeft } from 'react-bootstrap-icons';
+import { ArrowLeft } from 'react-bootstrap-icons'
+import PopupComp from '../components/PopupComp'
 
 function ProductScreen(history) {
 
@@ -25,7 +26,7 @@ function ProductScreen(history) {
 
   return (
     <div>    
-      <Link to='/' className='btn btn-light my-3'><ArrowLeft size={20} /> Go Back</Link>
+      <Link to='/home' className='btn btn-light my-3'><ArrowLeft size={20} /> Go Back</Link>
       <div class = "d-flex flex-row bd-highlight mb-3">
       <img src={product.image} alt={product.name} rounded fluid/>
       <Col xs={1}></Col>
@@ -58,6 +59,9 @@ function ProductScreen(history) {
       >
         Add to watchlist
       </Button>
+
+      
+      <PopupComp/>
       </div>
       </div>
     </div>

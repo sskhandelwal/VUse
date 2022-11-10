@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { Table, Button, Row, Col } from 'react-bootstrap'
+import { Table, Button, Row, Col, Container } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import { listProducts, deleteProduct } from '../actions/productActions'
@@ -41,7 +41,7 @@ function ProductListScreen({ }) {
     }
 
     return (
-        <div>
+        <Container>
             
             <h1>My Products</h1>
 
@@ -89,7 +89,7 @@ function ProductListScreen({ }) {
                             </Table>
                         </div>
                     )}
-        </div>
+        </Container>
     )
 }
 

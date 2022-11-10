@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import { 
     USER_LOGIN_REQUEST, 
     USER_LOGIN_SUCCESS, 
@@ -49,6 +50,7 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
     localStorage.removeItem('userInfo')
+
     dispatch({type:USER_LOGOUT})
 }
 

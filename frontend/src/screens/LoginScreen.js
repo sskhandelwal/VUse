@@ -14,7 +14,7 @@ function LoginScreen() {
     const dispatch = useDispatch()
 
     const location = useLocation()
-    const redirect = location.search ? location.search.split('=')[1] : '/'
+    const redirect = location.search ? location.search.split('=')[1] : '/home'
 
     const userLogin = useSelector(state => state.userLogin)
     const { error, loading, userInfo } = userLogin
@@ -27,7 +27,6 @@ function LoginScreen() {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        console.log(typeof(password))
         dispatch(login(email, password))
 
     }
@@ -58,7 +57,7 @@ function LoginScreen() {
                 >
                 </Form.Control>
             </Form.Group>
-
+            <br></br>
             <Button
                 type='submit'
                 variant='outline-warning'
