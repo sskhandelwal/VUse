@@ -9,34 +9,52 @@ export const ProductCard = ({ product }) => {
             to={`/product/${product._id}`}
             style={{ textDecoration: 'none' }}
         >
-            <Box sx={{paddingLeft: '5%', paddingRight: '5%', paddingBottom: '1.5%', paddingTop: '1.5%'}}>
-                <Card sx={{display: 'flex'}}>
-                    <Col sx={{flexDirection: 'column' }}>
-                        <CardContent sx={{ flex: '1 0 auto' }}>
-                            <Typography variant="h6">
-                                {product.name}
-                            </Typography>
-                            <Typography variant='body1'>
-                                {product.description}
-                                <br></br>
-                                <br></br>
-                            </Typography>
-                            <Typography variant="h4" color="text.secondary">
-                                ${product.price}
-                            </Typography>
-                        </CardContent>
-                    </Col>
-                    <Col>
-                        <CardMedia
-                            component='img'
-                            sx={{width: 200}}
-                            image={ product.image }
-                            alt='Product Image'
-                            style={{float: 'right', padding: '2%'}}
-                        />
-                    </Col>
-                </Card>
-            </Box>
+            <Card sx={{
+                display: 'flex',
+                paddingLeft: '5%',
+                paddingRight: '5%',
+                paddingBottom: '1.5%',
+                paddingTop: '1.5%',
+                margin: '2%',
+                height: 300
+            }}>
+                <Col sx={{flexDirection: 'column' }}>
+                    <CardContent sx={{ flex: '1 0 auto' }}>
+                        <Typography variant="h6">
+                            { 
+                                product.name.length > 30 ? (
+                                    product.name.slice(0, 30) + '...'
+                                ) : (
+                                    product.name
+                                )
+                            }
+                        </Typography>
+                        <Typography variant='body1'>
+                            { 
+                                product.description.length > 50 ? (
+                                    product.description.slice(0, 50) + '...'
+                                ) : (
+                                    product.description
+                                )
+                            }
+                            <br></br>
+                            <br></br>
+                        </Typography>
+                        <Typography variant="h4" color="text.secondary">
+                            ${product.price}
+                        </Typography>
+                    </CardContent>
+                </Col>
+                <Col>
+                    <CardMedia
+                        component='img'
+                        sx={{height: 'auto', width: 'auto'}}
+                        image={ product.image }
+                        alt='Product Image'
+                        style={{float: 'right', padding: '2%'}}
+                    />
+                </Col>
+            </Card>
         </Link>
     )
 }

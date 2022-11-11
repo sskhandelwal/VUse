@@ -21,14 +21,13 @@ function HomeScreen() {
   }, [dispatch, keyword])
 
   return (
-    <Grid>
+    <Grid container>
       {products.map(product => (
-        <Grid item>
-          <ProductCard product={ product } />
+        <Grid item xs={12} md={6} xl={4}>
+          <ProductCard product={ product }/>
         </Grid>
       ))}
     </Grid>
-    
   )
 }
 
