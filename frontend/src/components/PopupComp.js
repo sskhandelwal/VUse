@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux'
-import { updateProduct } from '../actions/productActions'
+import { updateProduct, listProductDetails } from '../actions/productActions'
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+
  
 function PopupComp() {
  
@@ -17,6 +19,9 @@ function PopupComp() {
  
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
+
+  const productUpdate = useSelector(state => state.productUpdate)
+  const { success:successUpdate } = productUpdate
  
   const [show, setShow] = useState(false);
   const [isBought, setBought] = useState(false);
@@ -24,12 +29,22 @@ function PopupComp() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  let navigate = useNavigate()
+  useEffect(() => {
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET })
+      navigate('/myorders')
+   } else {
+      setBought(true)
+      setBoughtBy(userInfo.id)
+   }
+  })
+ 
  
   const confirmHandler = (e) => {
     e.preventDefault()
-    setBought(true)
     setShow(false)
-    setBoughtBy(userInfo.id)
 
     dispatch(updateProduct({
       _id: productId,
@@ -42,6 +57,7 @@ function PopupComp() {
       isBought,
       boughtBy,
     }))
+    navigate('/orders')
   }
  
   return (
