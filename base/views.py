@@ -140,20 +140,7 @@ def updateProduct(request, pk):
     product.location = data['itemLocation']
     product.email = data['email']
     product.isBought = data['isBought']
-
-
-    product.save()
-
-    serializer = ProductSerializer(product, many=False)
-    return Response(serializer.data)
-
-@api_view(['PUT'])
-@permission_classes([IsAuthenticated])
-def updateBoughtStatus(request, pk):
-    data = request.data
-    product = Product.objects.get(_id=pk)
-
-    product.isBought = data['isBought']
+    product.boughtBy = data['boughtBy']
 
     product.save()
 
@@ -166,3 +153,14 @@ def deleteProduct(request, pk):
     product = Product.objects.get(_id=pk)
     product.delete()
     return Response('Product Deleted')
+
+@api_view(['POST'])
+def uploadImage(request):
+    data = request.data
+    
+    product_id = data['product_id']
+    product = Product.objects.get(_id=product_id)
+
+    product.image = request.FILES.get('image')
+    product.save()
+    return Response('Image was uploaded')

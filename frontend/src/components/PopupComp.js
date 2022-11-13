@@ -20,6 +20,7 @@ function PopupComp() {
 
   const [show, setShow] = useState(false);
   const [isBought, setBought] = useState(false);
+  const [boughtBy, setBoughtBy] = useState(0);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -28,16 +29,18 @@ function PopupComp() {
     e.preventDefault()
     setBought(true)
     setShow(false)
+    setBoughtBy(userInfo.id)
 
     dispatch(updateProduct({
       _id: productId,
       name: product.name, 
       price: product.price,
       description: product.description, 
-      location: product.location, 
+      itemLocation: product.location, 
       email:product.email,
       image: product.image,
       isBought,
+      boughtBy,
     }))
   }
 

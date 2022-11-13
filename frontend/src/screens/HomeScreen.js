@@ -22,7 +22,7 @@ function HomeScreen() {
 
   return (
     <Grid container>
-      {products.map(product => (
+      {products.filter(boughtProduct => !boughtProduct.isBought).map(product => (
         <Grid item xs={12} md={6} xl={4}>
           <ProductCard product={ product }/>
         </Grid>

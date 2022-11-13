@@ -15,7 +15,7 @@ class Product(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True, editable=False)
     isBought = models.BooleanField(default=False)
-
+    boughtBy = models.IntegerField(default = 0, null = True, blank = True)
 
     def __str__(self):
         return self.name

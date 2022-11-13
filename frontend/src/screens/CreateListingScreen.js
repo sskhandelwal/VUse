@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/Dropdown'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { listProductDetails, updateProduct } from '../actions/productActions'
+import { listProductDetails, updateProduct, deleteProduct } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import {withRouter} from 'react-router'
 
 function CreateListingScreen() {
   const { id } = useParams()
@@ -17,6 +19,7 @@ function CreateListingScreen() {
   const [itemLocation, setLocation] = useState('')
   const [email, setEmail] = useState('')
   const [itemImage, setImage] = useState('')
+  const [uploading, setUploading] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -61,6 +64,45 @@ function CreateListingScreen() {
     }))
   }
 
+  const deleteHandler = (id) => {
+
+    if (window.confirm('Are you sure you want to delete this product?')) {
+        dispatch(deleteProduct(id))
+        navigate('/home')
+    }
+  }
+  window.onpopstate = () => {
+    if (window.confirm('This will delete the product. Are you sure you want to continue?')) {
+      dispatch(deleteProduct(id))
+    }
+  }
+
+
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0]
+    const formData = new FormData()
+
+    formData.append('image', file)
+    formData.append('product_id', productId)
+
+    setUploading(true)
+
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.post('/api/products/upload/', formData, config)
+
+        setUploading(false)
+
+    } catch (error) {
+        setUploading(false)
+    }
+  }
+
   return (
     <div>
       <Row>
@@ -82,7 +124,6 @@ function CreateListingScreen() {
         
       </Row>
       
-
       <br></br>
 
       {/* buy now listing form */}
@@ -142,7 +183,7 @@ function CreateListingScreen() {
           </Form.Control>
         </Form.Group>
 
-        <Form.Group controlId='image'>
+        {/* <Form.Group controlId='image'>
           <Form.Label>Item image</Form.Label>
           <Form.Control
             type = 'text'
@@ -151,6 +192,10 @@ function CreateListingScreen() {
             onChange={(e) => setImage(e.target.value)}
           >
           </Form.Control>
+        </Form.Group> */}
+        <Form.Group controlId="formFile" className="mb-3">
+          <Form.Label>Upload Image</Form.Label>
+          <Form.Control type="file" onChange={uploadFileHandler}/>
         </Form.Group>
 
         <Button
@@ -160,15 +205,13 @@ function CreateListingScreen() {
               >
                   Confirm
           </Button>
+          <Button
+                  variant='danger'
+                  onClick={() => deleteHandler(product._id)}
+              >
+                  Delete
+          </Button>
         </Form>
-
-
-      <div className='buy-now-listing'>
-
-      </div>
-      <div className='auction-listing'>
-
-      </div>
     </div>
   )
 }
