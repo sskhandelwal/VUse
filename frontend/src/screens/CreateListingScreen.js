@@ -60,7 +60,8 @@ function CreateListingScreen() {
       itemLocation, 
       email,
       itemImage,
-      isBought: false
+      isBought: false,
+      boughtBy: product.boughtBy 
     }))
   }
 
