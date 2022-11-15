@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Alert, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import { addToCart, removeFromCart } from '../actions/cartActions'
+import { updateProduct } from '../actions/productActions'
 
 function CartScreen({ history }) {
   const { id } = useParams()
@@ -13,6 +14,9 @@ function CartScreen({ history }) {
   const cart = useSelector(state => state.cart)
   const { cartItems } = cart
 
+  const userLogin = useSelector(state => state.userLogin)
+  const { userInfo } = userLogin
+
   useEffect(() => {
     //if the id exists, add it to the cart
     if(productId) {
@@ -21,22 +25,39 @@ function CartScreen({ history }) {
   }, [dispatch, productId])
 
   const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id))
+    if (window.confirm('Are you sure you want to remove this item from your cart?')) {
+      dispatch(removeFromCart(id))
+    }
   }
 
   let navigate = useNavigate()
   const checkoutHandler = () => {
-    navigate('/login')
+    if (window.confirm('Are you sure you want to buy these products?')){
+      cartItems.map(item => (
+        dispatch(updateProduct({
+          _id: item.product,
+          email: userInfo.email,
+          name: item.name,
+          price: item.price,
+          description: item.description, 
+          itemLocation: item.location,  
+          isBought: true,
+          boughtBy: userInfo.id,
+        })),
+        dispatch(removeFromCart(item.product))
+      ))
+      navigate('/orders')
+    }
   }
 
   return (
     <Row>
       <Col md={8}>
-      <Link to='/' className='btn btn-light my-3'>Go Back</Link>
+      <Link to='/home' className='btn btn-light my-3'>Go Back</Link>
         <h1>Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <Alert variant='info'>
-            Your cart is empty: <Link to='/'>Go Back</Link>
+            Your cart is empty: <Link to='/home'>Go Back</Link>
           </Alert>
         ) : (
           <ListGroup variant='flush'>
@@ -76,8 +97,6 @@ function CartScreen({ history }) {
           <ListGroup variant='flush'>
             <ListGroup.Item>
               <h3>Subtotal:</h3>
-              {/* ${scores.reduce((previousScore, currentScore, index)=>previousScore+currentScore, 
-                100)} */}
               ${cartItems.reduce((acc, item) => acc + Number(item.price), 0).toFixed(2)}
             </ListGroup.Item>
           </ListGroup>

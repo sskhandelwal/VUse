@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Alert } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { 
     USER_LOGIN_REQUEST, 
@@ -43,7 +44,9 @@ export const login = (email, password) => async (dispatch) => {
     }catch(error){
         dispatch({
             type: USER_LOGIN_FAIL,
-            payload: error.message,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
         })
     }
 }

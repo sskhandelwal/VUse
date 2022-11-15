@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Form, Button, Row, Col } from 'react-bootstrap'
+import { Form, Button, Row, Col, Alert } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import { login } from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
-import { Alert } from 'bootstrap'
+import Message from '../components/Message'
+
 
 function LoginScreen() {
     const [email, setEmail] = useState('')
@@ -28,12 +29,12 @@ function LoginScreen() {
     const submitHandler = (e) => {
         e.preventDefault()
         dispatch(login(email, password))
-
     }
-
+  
   return (
     <FormContainer>
         <h1>Sign In</h1>
+        {error && <Alert variant='danger'>Username and/or Password is incorrect </Alert>}
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>
             <Form.Group controlId='email'>
