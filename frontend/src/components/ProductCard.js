@@ -48,7 +48,7 @@ export const ProductCard = ({ product }) => {
                 <Col>
                     <CardMedia
                         component='img'
-                        sx={{height: 'auto', width: 'auto'}}
+                        sx={{height: '75%', width: 'auto'}}
                         image={ product.image }
                         alt='Product Image'
                         style={{float: 'right', padding: '2%'}}
