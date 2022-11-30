@@ -76,7 +76,7 @@ function Header() {
           {/* VUSE links to home */}
           <LinkContainer to='/home'>
             <Navbar.Brand>
-              VUse
+              V-Use
             </Navbar.Brand>
           </LinkContainer>
 

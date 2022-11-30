@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
 import {USER_UPDATE_PROFILE_RESET} from '../constants/userConstants'
-
 function ProfileScreen() {
 
     const [name, setName] = useState('')
@@ -57,74 +56,80 @@ function ProfileScreen() {
     }
 
   return (
-    <Row>
-        <Col md={3}>
-            <h2>User Profile</h2>
+    <div className='app-orderscreen'>
+        <Row className='header-product body'>
+            <h2 className="text-center">User Profile</h2>
+            <br></br>
+            <br></br>
             {message && <Alert variant='danger'>{message}</Alert>}
-        {error && <Alert variant='danger'>{error}</Alert>}
-        {loading && <Loader />}
-        <Form onSubmit={submitHandler}>
-        <Form.Group controlId='name'>
-                <Form.Label>Name</Form.Label>
+            {error && <Alert variant='danger'>{error}</Alert>}
+            {loading && <Loader />}
+            <Form onSubmit={submitHandler}>
+            <Form.Group controlId='name'>
+                <span className='align-items-baseline'>
+                    
+                    
+                </span>
                 <Form.Control
                     required
                     type='name'
                     placeholder='Enter Name'
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
-                >
+                    onChange={(e) => setName(e.target.value)}>
                 </Form.Control>
-            </Form.Group>
+                        
+                    
+                    
 
-            <Form.Group controlId='email'>
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control
-                    required
-                    type='email'
-                    placeholder='Enter Email'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                >
-                </Form.Control>
-            </Form.Group>
+                </Form.Group>
 
-            <Form.Group controlId='password'>
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                    type='password'
-                    placeholder='Enter Password'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                >
-                </Form.Control>
-            </Form.Group>
+                <Form.Group controlId='email'>
+                    <Form.Label>Email Address</Form.Label>
+                    <Form.Control
+                        required
+                        type='email'
+                        placeholder='Enter Email'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    >
+                    </Form.Control>
+                </Form.Group>
 
-            <Form.Group controlId='passwordConfirm'>
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                    type='password'
-                    placeholder='Confirm Password'
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                >
-                </Form.Control>
-            </Form.Group>
+                <Form.Group controlId='password'>
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        type='password'
+                        placeholder='Enter Password'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    >
+                    </Form.Control>
+                </Form.Group>
 
-            <Button
-                type='submit'
-                variant='outline-warning'
-                className='button rounded textColor'
-            >
-                Update
-            </Button>
+                <Form.Group controlId='passwordConfirm'>
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control
+                        type='password'
+                        placeholder='Confirm Password'
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    >
+                    </Form.Control>
+                </Form.Group>
+                <br></br>
+                <div className='text-center'>
+                    <Button
+                        type='submit'
+                        variant='outline-warning'
+                        className='button rounded textColor'
+                    >
+                        Update
+                    </Button>
+                </div>
 
-        </Form>
-        </Col>
-
-        <Col md={9}>
-            <h2>My Orders</h2>
-        </Col>
-    </Row>
+            </Form>
+        </Row>
+    </div>
   )
 }
 

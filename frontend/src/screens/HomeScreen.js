@@ -32,18 +32,20 @@ function HomeScreen() {
     return result >= 0 ? result : result + m;
   };
 
+  const viableCards = products.filter(boughtProduct => !boughtProduct.isBought)
+
   const cards = [
     {
       id: "1",
-      item: products[0]
+      item: viableCards[0]
     },
     {
       id: "2",
-      item: products[1]
+      item: viableCards[1]
     },
     {
       id: "3",
-      item: products[2]
+      item: viableCards[2]
     }
   ]
 
