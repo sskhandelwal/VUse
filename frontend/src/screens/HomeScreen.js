@@ -50,7 +50,6 @@ function HomeScreen() {
   useEffect(() => {
     setTimeout(() => {
       setIndex((index + 1) % cards.length);
-      console.log(index);
     }, 3500);
   }, [index, cards.length]);
 

@@ -13,6 +13,7 @@ import ProfileScreen from './screens/ProfileScreen'
 import MyProductScreen from './screens/MyProductScreen'
 import LandingScreen from './screens/LandingScreen'
 import MyOrderScreen from './screens/MyOrderScreen'
+import CreateAuctionScreen from './screens/CreateAuctionScreen'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path='/cart/:id' element={<CartScreen/>}/>
             <Route path='/cart/' element={<CartScreen/>}/>
             <Route path='/product/:id/edit' element={<CreateListingScreen/>}/>
+            <Route path='/auctionproduct/:id/edit' element={<CreateAuctionScreen/>}/>
             <Route path='/login/' element={<LoginScreen/>}/>
             <Route path='/register/' element={<RegisterScreen/>}/>
             <Route path='/profile/' element={<ProfileScreen/>}/>

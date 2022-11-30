@@ -40,9 +40,20 @@ export const ProductCard = ({ product }) => {
                             <br></br>
                             <br></br>
                         </Typography>
-                        <Typography variant="h4" color="text.secondary">
-                            ${product.price}
-                        </Typography>
+                        {
+                            product.bid === null ?
+                            (
+                                <Typography variant="h4" color="text.secondary">
+                                    ${product.price}
+                                </Typography>
+                            ) :
+                            (
+                                <Typography variant="h4" color="text.secondary">
+                                    ${product.bid}
+                                </Typography>
+                            )
+                        }
+                        
                     </CardContent>
                 </Col>
                 <Col>

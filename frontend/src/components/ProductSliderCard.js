@@ -18,7 +18,7 @@ export const ProductSliderCard = ({ product }) => {
                     alt='Product Image'
                     style={{padding: '5%', margin: 'auto', display: 'block'}}
                 />
-            
+
                 <Typography
                     variant="h4"
                     color='text.secondary'

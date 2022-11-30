@@ -133,7 +133,10 @@ def updateProduct(request, pk):
     product = Product.objects.get(_id=pk)
 
     product.name = data['name']
-    product.price = data['price']
+    if (product.price != 0): 
+        product.price = data['price']
+    else:
+        product.bid = data['initialBidPrice']
     product.description = data['description']
     product.location = data['itemLocation']
     product.email = data['email']

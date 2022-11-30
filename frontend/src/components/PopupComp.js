@@ -35,7 +35,7 @@ function PopupComp() {
   useEffect(() => {
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET })
-      navigate('/myorders')
+      // navigate('/myorders')
    } else {
       setBought(true)
       setBoughtBy(userInfo.id)

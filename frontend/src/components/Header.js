@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Nav, Navbar, Container, NavDropdown } from 'react-bootstrap'
+import { Nav, Navbar, Container, NavDropdown, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import SearchBox from './SearchBox'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,6 +7,7 @@ import { logout } from '../actions/userActions'
 import { useNavigate } from 'react-router-dom'
 import { createProduct } from '../actions/productActions'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
+import Modal from 'react-bootstrap/Modal';
 
 function Header() {
 
@@ -17,26 +18,43 @@ function Header() {
   const { userInfo } = userLogin;
 
   const productCreate = useSelector(state => state.productCreate)
-  const { success: successCreate, product:createdProduct } = productCreate  
+  const { success: successCreate, product:createdProduct } = productCreate
+  
+  const [isAuction, setIsAuction] = useState(false)
 
   let navigate = useNavigate()
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET })
 
-    if (successCreate) {
+    if (successCreate && !isAuction) {
       navigate(`/product/${createdProduct._id}/edit`)
+    }
+    if (successCreate && isAuction) {
+      navigate(`/auctionproduct/${createdProduct._id}/edit`)
     }
 
   }, [dispatch, successCreate, createdProduct])
 
   
-  const createProductHandler = () => {
-    dispatch(createProduct())
-  }
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true)
 
   
   const createListingHandler = () => {
     if (window.confirm('Are you sure you want to create a product?')) {
+      setIsAuction(false)
+      handleClose()
+      dispatch(createProduct())
+    } else {
+      navigate(this.props.navigation.state.routeName)
+    }
+  }
+  const createAuctionHandler = () => {
+    if (window.confirm('Are you sure you want to create an auctionable product?')) {
+      setIsAuction(true)
+      handleClose()
       dispatch(createProduct())
     } else {
       navigate(this.props.navigation.state.routeName)
@@ -76,7 +94,7 @@ function Header() {
                 Cart
               </Nav.Link>
             </LinkContainer>
-
+            
             {/* Dropdown to all other pages */}
             <NavDropdown title={userInfo.name} id='username'>
               <LinkContainer to='/profile'>
@@ -94,9 +112,26 @@ function Header() {
                   My Orders
                 </NavDropdown.Item>
               </LinkContainer>
-              <NavDropdown.Item onClick={createListingHandler}>
+              <NavDropdown.Item onClick={handleShow}>
                 Create Listing
               </NavDropdown.Item>
+              <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Choose the Item You Would Like to Create!</Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Close
+                  </Button>
+                  <Button variant="primary" onClick={createAuctionHandler}>
+                    Auction Item
+                  </Button>
+                  <Button variant="primary" onClick={createListingHandler}>
+                    Normal Item
+                  </Button>
+                </Modal.Footer>
+              </Modal>
               <LinkContainer to='/'>
                 <NavDropdown.Item onClick={logoutHandler}>
                   Logout

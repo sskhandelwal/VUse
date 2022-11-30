@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Figure, Tooltip } from 'react-bootstrap'
+import { Button, Col, Figure, Form } from 'react-bootstrap'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { listProductDetails } from '../actions/productActions'
+import { listProductDetails, updateProduct } from '../actions/productActions'
 import { ArrowLeft, Heart, Circle, ShareFill, Cart, Chat, Basket} from 'react-bootstrap-icons';
 import PopupComp from '../components/PopupComp'
 import '../index.css'
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+
  
  
-function ProductScreen(history) {
-  const [isLiked, setIsLiked] = useState(false);
+function ProductScreen() {
+
+  const [isLiked, setIsLiked] = useState(false)
+  const [initialBidPrice, setInitialBidPrice] = useState(0)
  
   const { id } = useParams()
+  const productId = id
   const dispatch = useDispatch()
   const productDetails = useSelector(state => state.productDetails)
   const { product } = productDetails
+  const productUpdate = useSelector(state => state.productUpdate)
+  const { success:successUpdate } = productUpdate
   
   useEffect(() => {
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET })
+      navigate(`/product/${productId}`)
+    }
     dispatch(listProductDetails(id))
   }, [dispatch])
  
@@ -30,6 +41,22 @@ function ProductScreen(history) {
   const handleHeartClick = () => {
     console.log('clicked heart');
     setIsLiked(prev => !prev);
+  }
+
+  const submitHandler = (e) => {
+    e.preventDefault()
+    dispatch(updateProduct({
+      _id: productId,
+      name: product.name, 
+      initialBidPrice,
+      description: product.description, 
+      itemLocation: product.location, 
+      email: product.email,
+      itemImage: product.image,
+      isBought: false,
+      boughtBy: product.boughtBy 
+    }))
+    navigate(`/product/${productId}`)
   }
  
  
@@ -62,9 +89,38 @@ function ProductScreen(history) {
               <div>
                 <div className="item-header">
                   <h1 className='body'>{product.name} </h1>
-                  <span style={{ fontSize: 25}} className='body text-bold'>${product.price}</span>
+                  {
+                    product.bid === null ?
+                    (<span style={{ fontSize: 25}} className='body text-bold'>${product.price}</span>) :
+                    (<span style={{ fontSize: 25}} className='body text-bold'>Initial Bid Price: ${product.bid}</span>)
+                  }
+                  
                 </div>
                 <p>{product.description}</p>
+                {product.bid === null
+                ? (<h3>Item is not up for bidding</h3>) :
+                (
+                  <Form onSubmit={submitHandler}>
+                    <Form.Group controlId='bid'>
+                      <Form.Label>Item Bid</Form.Label>
+                      <Form.Control
+                        type = 'number'
+                        placeholder='Enter bid...'
+                        value={initialBidPrice}
+                        onChange={(e) => setInitialBidPrice(e.target.value)}
+                      >
+                      </Form.Control>
+                    </Form.Group>
+                    <Button
+                        type='submit'
+                        variant='outline-warning'
+                        className='button rounded textColor'
+                    >
+                        Confirm
+                  </Button>
+                  </Form>
+                )
+                }
                
               </div>
               <div className ="button-features">

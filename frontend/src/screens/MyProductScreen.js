@@ -70,11 +70,24 @@ function ProductListScreen({ }) {
                                             <td>{product.location}</td>
 
                                             <td>
-                                                <LinkContainer to={`/product/${product._id}/edit`}>
-                                                    <Button variant='light' className='btn-sm'>
-                                                        <i className='fas fa-edit'></i>
-                                                    </Button>
-                                                </LinkContainer>
+                                                {
+                                                    product.bid === null ?
+                                                    (
+                                                        <LinkContainer to={`/product/${product._id}/edit`}>
+                                                            <Button variant='light' className='btn-sm'>
+                                                                <i className='fas fa-edit'></i>
+                                                            </Button>
+                                                        </LinkContainer>
+                                                    ) :
+                                                    (
+                                                        <LinkContainer to={`/auctionproduct/${product._id}/edit`}>
+                                                            <Button variant='light' className='btn-sm'>
+                                                                <i className='fas fa-edit'></i>
+                                                            </Button>
+                                                        </LinkContainer>
+                                                    )
+                                                }
+                                                
 
                                                 <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(product._id)}>
                                                     <i className='fas fa-trash'></i>

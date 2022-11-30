@@ -1,26 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownButton from 'react-bootstrap/DropdownButton'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails, updateProduct, deleteProduct } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
-import {withRouter} from 'react-router'
 
-function CreateListingScreen() {
+function CreateAuctionScreen() {
   const { id } = useParams()
   const productId = id
 
   const [name, setName] = useState('')
-  const [price, setPrice] = useState(0)
   const [description, setDescription] = useState('')
   const [itemLocation, setLocation] = useState('')
   const [email, setEmail] = useState('')
   const [itemImage, setImage] = useState('')
   const [uploading, setUploading] = useState(false)
-  const [bidding, setBidding] = useState(false)
+  const [initialBidPrice, setInitialBidPrice] = useState(0)
 
   const dispatch = useDispatch()
 
@@ -40,7 +36,7 @@ function CreateListingScreen() {
       dispatch(listProductDetails(productId))
     } else {
       setName(product.name)
-      setPrice(product.price)
+      setInitialBidPrice(product.bid)
       setDescription(product.description)
       setLocation(product.location)
       setEmail(product.email)
@@ -56,7 +52,7 @@ function CreateListingScreen() {
     dispatch(updateProduct({
       _id: productId,
       name, 
-      price,
+      initialBidPrice,
       description, 
       itemLocation, 
       email,
@@ -109,18 +105,8 @@ function CreateListingScreen() {
     <div>
       <Row>
         <Col>
-          <DropdownButton title='Listing type'>
-            <Dropdown.Item>
-              Normal Item
-            </Dropdown.Item>
-            <Dropdown.Item>
-              Auction Item
-            </Dropdown.Item>
-          </DropdownButton>
-        </Col>
-        <Col>
           <h1 className=''>
-            Item Details
+            Item Details (Auction)
           </h1>
         </Col>
         
@@ -142,12 +128,12 @@ function CreateListingScreen() {
         </Form.Group>
 
         <Form.Group controlId='price'>
-          <Form.Label>Item price</Form.Label>
+          <Form.Label>Item Bid Price</Form.Label>
           <Form.Control
             type = 'number'
-            placeholder='Enter price...'
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            placeholder='Enter initial bid price...'
+            value={initialBidPrice}
+            onChange={(e) => setInitialBidPrice(e.target.value)}
           >
           </Form.Control>
         </Form.Group>
@@ -207,4 +193,4 @@ function CreateListingScreen() {
   )
 }
 
-export default CreateListingScreen
+export default CreateAuctionScreen
