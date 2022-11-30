@@ -7,6 +7,7 @@ import { ArrowLeft, Heart, Circle, ShareFill, Cart, Chat, Basket} from 'react-bo
 import PopupComp from '../components/PopupComp'
 import '../index.css'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import Countdown from 'react-countdown'
 
  
  
@@ -45,6 +46,10 @@ function ProductScreen() {
 
   const submitHandler = (e) => {
     e.preventDefault()
+    const form = e.currentTarget()
+    if (form.checkValidity() === false) {
+      e.stopPropogation()
+    }
     dispatch(updateProduct({
       _id: productId,
       name: product.name, 
@@ -58,9 +63,19 @@ function ProductScreen() {
     }))
     navigate(`/product/${productId}`)
   }
+  const [validated, setValidated] = useState(false)
+  const handleBid = (e) => {
+    e.preventDefault()
+    if (initialBidPrice > product.bid) {
+      setInitialBidPrice(e.target.value)
+      setValidated(true)
+    } else {
+      setValidated(false)
+    }
+  }
  
  
-  const currentURL = window.location.href;
+  const Completionist = () => <span>You are good to go!</span>
   return (
    
     <div className='body'>
@@ -92,7 +107,7 @@ function ProductScreen() {
                   {
                     product.bid === null ?
                     (<span style={{ fontSize: 25}} className='body text-bold'>${product.price}</span>) :
-                    (<span style={{ fontSize: 25}} className='body text-bold'>Initial Bid Price: ${product.bid}</span>)
+                    (<span style={{ fontSize: 25 }} className='body text-bold'>Current Bid: ${product.bid}</span>)
                   }
                   
                 </div>
@@ -102,8 +117,9 @@ function ProductScreen() {
                 (
                   <Form onSubmit={submitHandler}>
                     <Form.Group controlId='bid'>
-                      <Form.Label>Item Bid</Form.Label>
+                      <Form.Label>Enter your bid</Form.Label>
                       <Form.Control
+                        required
                         type = 'number'
                         placeholder='Enter bid...'
                         value={initialBidPrice}
@@ -125,8 +141,17 @@ function ProductScreen() {
               </div>
               <div className ="button-features">
                 <Button onClick={addToCartHandler} className="cart"><Cart size={20}></Cart> Add to cart</Button>
-             
-                <PopupComp ></PopupComp>
+                {
+                  product.bid === null ?
+                  (
+                    <PopupComp ></PopupComp>
+                  ) : (
+                    <Countdown date={Date.now() + 5000}>
+                        <Completionist />
+                    </Countdown>
+                  )
+                }
+  
                 <Button onClick={(e) => { e.preventDefault(); window.location.href = `mailto:${product.email}`; }} className ="margin-left message"> <Chat size={18}></Chat> Contact </Button>
                 <span className='margin-left-location text-bold'>{product.location}</span>
                
