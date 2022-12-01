@@ -73,7 +73,8 @@ function CreateAuctionScreen() {
         email,
         itemImage,
         isBought: false,
-        boughtBy: product.boughtBy 
+        boughtBy: product.boughtBy, 
+        date
       }))
     }
   }

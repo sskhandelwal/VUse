@@ -1,3 +1,4 @@
+import django
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
@@ -15,7 +16,8 @@ class Product(models.Model):
     isBought = models.BooleanField(default=False)
     boughtBy = models.IntegerField(default = 0, null = True, blank = True)
     bid = models.DecimalField(default = 0, max_digits=7, decimal_places = 2, null=True, blank=True)
-
+    when = models.DateTimeField(default = django.utils.timezone.now)
+    milliseconds = models.BigIntegerField(default = 0)
 
     def __str__(self):
         return self.name

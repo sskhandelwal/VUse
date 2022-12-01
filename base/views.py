@@ -13,7 +13,8 @@ from rest_framework import status
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-import logging
+import django
+from datetime import datetime
 
 from base import serializer
 # Create your views here.
@@ -137,11 +138,18 @@ def updateProduct(request, pk):
         product.price = data['price']
     else:
         product.bid = data['initialBidPrice']
+
     product.description = data['description']
     product.location = data['itemLocation']
     product.email = data['email']
     product.isBought = data['isBought']
     product.boughtBy = data['boughtBy']
+    if (product.when != django.utils.timezone.now): 
+        product.when = data['date']
+        dt_obj = datetime.strptime(product.when, '%Y-%m-%d')
+        ms = dt_obj.timestamp() * 1000
+        product.milliseconds = ms 
+
 
     product.save()
 

@@ -7,7 +7,6 @@ import { ArrowLeft, Heart, Circle, ShareFill, Cart, Chat, Basket} from 'react-bo
 import PopupComp from '../components/PopupComp'
 import '../index.css'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
-import Countdown from 'react-countdown'
 import Modal from 'react-bootstrap/Modal';
 
 
@@ -17,6 +16,10 @@ function ProductScreen() {
 
   const [isLiked, setIsLiked] = useState(false)
   const [initialBidPrice, setInitialBidPrice] = useState(0)
+  const [day, setDay] = useState(0)
+  const [hour, setHour] = useState(0)
+  const [min, setMin] = useState(0)
+  const [sec, setSec] = useState(0)
  
   const { id } = useParams()
   const productId = id
@@ -32,7 +35,20 @@ function ProductScreen() {
       navigate(`/product/${productId}`)
     }
     dispatch(listProductDetails(id))
-  }, [dispatch])
+    const interval = setInterval(() => {
+      const now = new Date().getTime()
+
+      const diff = product.milliseconds - now
+
+      setDay(day => Math.floor(product.milliseconds / (1000 * 60 * 60 * 24) - (now / (1000 * 60 * 60 * 24))))
+      setHour(hour => Math.floor((product.milliseconds / (1000 * 60 * 60) - (now / (1000 * 60 * 60))) % 24))
+      setMin(min => Math.floor((product.milliseconds / (1000 * 60) - (now / (1000 * 60 ))) % 60))
+      setSec(sec => Math.floor((product.milliseconds / (1000) - (now / (1000))) % 60))
+    }, 1000);
+
+    return () => clearInterval(interval);
+
+  }, [dispatch, day, hour, min, sec])
  
   let navigate = useNavigate()
   //navigate to the page where the url has the id of the item
@@ -68,8 +84,7 @@ function ProductScreen() {
     navigate(`/product/${productId}`)
   }
  
- 
-  const Completionist = () => <span>You are good to go!</span>
+   
   return (
    
     <div className='body'>
@@ -154,9 +169,9 @@ function ProductScreen() {
                   (
                     <PopupComp ></PopupComp>
                   ) : (
-                    <Countdown date={Date.now() + 5000}>
-                        <Completionist />
-                    </Countdown>
+                    <h3>
+                      {day} days, {hour} hours, {min} minutes, {sec} seconds
+                    </h3>
                   )
                 }
   
