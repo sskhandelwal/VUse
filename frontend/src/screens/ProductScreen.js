@@ -79,7 +79,8 @@ function ProductScreen() {
       email: product.email,
       itemImage: product.image,
       isBought: false,
-      boughtBy: product.boughtBy 
+      boughtBy: product.boughtBy, 
+      date: product.when
     }))
     navigate(`/product/${productId}`)
   }

@@ -66,7 +66,16 @@ function ProductListScreen({ }) {
                                         <tr key={product._id}>
                                             <td>{product._id}</td>
                                             <td>{product.name}</td>
-                                            <td>${product.price}</td>
+                                            {
+                                                product.bid === null ?
+                                                (
+                                                    <td>${product.price}</td>
+                                                ) :
+                                                (
+                                                    <td>${product.bid}</td>
+                                                )
+                                            }
+                                            
                                             <td>{product.location}</td>
 
                                             <td>

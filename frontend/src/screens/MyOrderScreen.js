@@ -66,10 +66,18 @@ function OrdersListScreen({ }) {
                                         <tr key={product._id}>
                                             <td>{product._id}</td>
                                             <td>{product.name}</td>
-                                            <td>${product.price}</td>
+                                            {
+                                                product.bid === null ?
+                                                (
+                                                    <td>${product.price}</td>
+                                                ) :
+                                                (
+                                                    <td>${product.bid}</td>
+                                                )
+                                            }
                                             <td>{product.location}</td>
 
-                                            <td>
+                                            {/* <td>
                                                 <LinkContainer to={`/product/${product._id}/edit`}>
                                                     <Button variant='light' className='btn-sm'>
                                                         <i className='fas fa-edit'></i>
@@ -79,7 +87,7 @@ function OrdersListScreen({ }) {
                                                 <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(product._id)}>
                                                     <i className='fas fa-trash'></i>
                                                 </Button>
-                                            </td>
+                                            </td> */}
                                         </tr>
                                         : ''
                                     ))}
