@@ -17,8 +17,12 @@ function CreateAuctionScreen() {
   const [itemImage, setImage] = useState('')
   const [uploading, setUploading] = useState(false)
   const [initialBidPrice, setInitialBidPrice] = useState(0)
+  const [date, setDate] = useState(new Date())
+  const [validated, setValidated] = useState(false)
+  const [errors, setErrors] = useState({})
 
   const dispatch = useDispatch()
+  const today = new Date()
 
   const productDetails = useSelector(state => state.productDetails)
   const { product } = productDetails
@@ -49,17 +53,29 @@ function CreateAuctionScreen() {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(updateProduct({
-      _id: productId,
-      name, 
-      initialBidPrice,
-      description, 
-      itemLocation, 
-      email,
-      itemImage,
-      isBought: false,
-      boughtBy: product.boughtBy 
-    }))
+    const allErrors = {}
+
+    if (date <= today) {
+      allErrors.date = "Select date after today"
+    }
+
+    if (Object.keys(allErrors) > 0) {
+      setErrors(allErrors)
+      setValidated(false)
+    } else {
+      setValidated(true)
+      dispatch(updateProduct({
+        _id: productId,
+        name, 
+        initialBidPrice,
+        description, 
+        itemLocation, 
+        email,
+        itemImage,
+        isBought: false,
+        boughtBy: product.boughtBy 
+      }))
+    }
   }
 
   const deleteHandler = (id) => {
@@ -115,7 +131,7 @@ function CreateAuctionScreen() {
       <br></br>
 
       {/* buy now listing form */}
-      <Form onSubmit={submitHandler}>
+      <Form validated={validated} onSubmit={submitHandler}>
         <Form.Group controlId='name'>
           <Form.Label>Item name</Form.Label>
           <Form.Control
@@ -173,6 +189,18 @@ function CreateAuctionScreen() {
         <Form.Group controlId="formFile" className="mb-3">
           <Form.Label>Upload Image</Form.Label>
           <Form.Control type="file" onChange={uploadFileHandler}/>
+        </Form.Group>
+        <Form.Group controlId="validationFormik03">
+          <Form.Label>Date</Form.Label>
+          <Form.Control
+            type = 'date'
+            placeholder='Choose Date...'
+            value={date}
+            isInvalid={!!errors.date}
+            onChange={(e) => setDate(e.target.value)}
+            feedback="Error"
+          >
+          </Form.Control>
         </Form.Group>
 
         <Button

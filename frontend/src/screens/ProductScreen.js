@@ -8,6 +8,8 @@ import PopupComp from '../components/PopupComp'
 import '../index.css'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import Countdown from 'react-countdown'
+import Modal from 'react-bootstrap/Modal';
+
 
  
  
@@ -44,12 +46,14 @@ function ProductScreen() {
     setIsLiked(prev => !prev);
   }
 
+  const [show, setShow] = useState(false)
+
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+
   const submitHandler = (e) => {
     e.preventDefault()
-    const form = e.currentTarget()
-    if (form.checkValidity() === false) {
-      e.stopPropogation()
-    }
+    handleClose()
     dispatch(updateProduct({
       _id: productId,
       name: product.name, 
@@ -62,16 +66,6 @@ function ProductScreen() {
       boughtBy: product.boughtBy 
     }))
     navigate(`/product/${productId}`)
-  }
-  const [validated, setValidated] = useState(false)
-  const handleBid = (e) => {
-    e.preventDefault()
-    if (initialBidPrice > product.bid) {
-      setInitialBidPrice(e.target.value)
-      setValidated(true)
-    } else {
-      setValidated(false)
-    }
   }
  
  
@@ -115,7 +109,7 @@ function ProductScreen() {
                 {product.bid === null
                 ? (<h3>Item is not up for bidding</h3>) :
                 (
-                  <Form onSubmit={submitHandler}>
+                  <Form onSubmit={handleShow}>
                     <Form.Group controlId='bid'>
                       <Form.Label>Enter your bid</Form.Label>
                       <Form.Control
@@ -134,6 +128,20 @@ function ProductScreen() {
                     >
                         Confirm
                   </Button>
+                  <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Are you sure you would like to bid?</Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleClose}>
+                        No
+                      </Button>
+                      <Button variant="primary" onClick={submitHandler}>
+                        Yes
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
                   </Form>
                 )
                 }
