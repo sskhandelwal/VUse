@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { Card, CardContent, Typography, CardMedia } from '@mui/material'
 import { Col } from 'react-bootstrap'
 
+// testing
+
 export const ProductCard = ({ product }) => {
     return (
         <Link
