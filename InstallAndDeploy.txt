@@ -1,0 +1,29 @@
+Install:
+
+For the frontend, run the following commands...
+npm install react-scripts
+npm install
+npm install react-bootstrap
+npm install react-bootstrap icons
+
+Also install material ui packages from https://mui.com (depends on device)
+
+For the backend, run the following commands...
+pip install Django                             3.2.15             
+pip install django-cors-headers                3.13.0             
+pip install django-storages                    1.13.1             
+pip install djangorestframework                3.14.0             
+pip install djangorestframework-simplejwt      5.2.2
+pip install boto3                              1.26.11
+
+To run the code locally, follow these steps:
+1. Clone the application using git clone.
+2. Open the application via any code editor.
+3. In order to run the application, both the backend and frontend need to be started/ran (in that specific order).
+    1. For backend, stay in the original/home directory and type ‘python .\manage.py runserver’ to run the backend
+    2. For frontend, go to the frontend directory. (cd frontend)
+4. Type ‘npm run build’ and wait for the frontend to be built
+5. This website will be run through the port 8000: http://localhost:8000/.
+
+To deploy the project, follow this video (we also followed this video):
+https://www.youtube.com/watch?v=r0ECufCyyyw
