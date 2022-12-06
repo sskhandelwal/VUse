@@ -9,7 +9,7 @@ function LandingScreen() {
     <section class="home">
         <div class="max-width">
             <div class="home-content">
-                <div class="text-1">Welcome to VUse</div>
+                <div class="text-1">Welcome to V-Use</div>
                 <div class="text-2">Anchor Down!</div>
                 <Link to='/login'>
                     <div>

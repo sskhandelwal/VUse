@@ -1,6 +1,7 @@
 import django
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime, timezone
 # Create your models here.
 
 class Product(models.Model):
@@ -16,8 +17,11 @@ class Product(models.Model):
     isBought = models.BooleanField(default=False)
     boughtBy = models.IntegerField(default = 0, null = True, blank = True)
     bid = models.DecimalField(default = 0, max_digits=7, decimal_places = 2, null=True, blank=True)
-    when = models.DateTimeField(default = django.utils.timezone.now)
-    milliseconds = models.BigIntegerField(default = 0)
+    isAuction = models.BooleanField(default=False)
+    hours = models.BigIntegerField(null=True, blank=True)
+    endDate = models.DateTimeField(default = datetime.now(timezone.utc))
+    
+    # milliseconds = models.BigIntegerField(default = 4)
 
     def __str__(self):
         return self.name

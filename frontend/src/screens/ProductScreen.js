@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Figure, Form } from 'react-bootstrap'
+import { Button, Row, Col, Figure, Form, Tooltip } from 'react-bootstrap'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails, updateProduct } from '../actions/productActions'
 import { ArrowLeft, Heart, Circle, ShareFill, Cart, Chat, Basket} from 'react-bootstrap-icons';
 import PopupComp from '../components/PopupComp'
 import '../index.css'
+import { Card, CardContent, Typography, CardMedia } from '@mui/material'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import Modal from 'react-bootstrap/Modal';
+import {Box, Stack, Divider} from '@mui/material'
 
 
- 
  
 function ProductScreen() {
 
   const [isLiked, setIsLiked] = useState(false)
   const [initialBidPrice, setInitialBidPrice] = useState(0)
-  const [day, setDay] = useState(0)
-  const [hour, setHour] = useState(0)
-  const [min, setMin] = useState(0)
-  const [sec, setSec] = useState(0)
  
   const { id } = useParams()
   const productId = id
@@ -28,27 +25,15 @@ function ProductScreen() {
   const { product } = productDetails
   const productUpdate = useSelector(state => state.productUpdate)
   const { success:successUpdate } = productUpdate
-  
+
   useEffect(() => {
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET })
       navigate(`/product/${productId}`)
     }
     dispatch(listProductDetails(id))
-    const interval = setInterval(() => {
-      const now = new Date().getTime()
 
-      const diff = product.milliseconds - now
-
-      setDay(day => Math.floor(product.milliseconds / (1000 * 60 * 60 * 24) - (now / (1000 * 60 * 60 * 24))))
-      setHour(hour => Math.floor((product.milliseconds / (1000 * 60 * 60) - (now / (1000 * 60 * 60))) % 24))
-      setMin(min => Math.floor((product.milliseconds / (1000 * 60) - (now / (1000 * 60 ))) % 60))
-      setSec(sec => Math.floor((product.milliseconds / (1000) - (now / (1000))) % 60))
-    }, 1000);
-
-    return () => clearInterval(interval);
-
-  }, [dispatch, day, hour, min, sec])
+  }, [dispatch])
  
   let navigate = useNavigate()
   //navigate to the page where the url has the id of the item
@@ -80,7 +65,8 @@ function ProductScreen() {
       itemImage: product.image,
       isBought: false,
       boughtBy: product.boughtBy, 
-      date: product.when
+      date: product.hours,
+      isAuction: product.isAuction
     }))
   }
  
@@ -95,119 +81,226 @@ function ProductScreen() {
   }
    
   return (
-   
-    <div className='body'>
-      <div className='header-product'>
-       
-        <Link to='/home' className= 'back-button'> <ArrowLeft size={40} /> </Link>
-       
-       
-      </div>
-     
-      <div className='app'>
-        <div class = "d-flex flex-mb-3">
-          <div className = "details">
-            <div className="big-img">
-                   
-              <Figure>
-                <img src={product.image} alt={product.name} />
-              </Figure>
-            </div>
-            <Heart color={isLiked ? 'red' : ''} onClick={handleHeartClick} size= {40} className='heart-details' data-toggle="tooltip" title="Add to Watchlist"></Heart>
-          </div>
-          <Col xs={1}></Col>
-          <div class = "d-inline-flex-row p-2 w-200">    
+    <React.Fragment>
+      <Stack   
+        direction="row" justifyContent="center" alignItems="center" spacing={2} 
+        divider={<Divider orientation="vertical" flexItem />}
+      >
+        <Box
+          sx={{
+            borderRadius: 2,
+            boxShadow: 1,
+            marginTop: 20,
+            padding: 2,
+            border: 1,
+            width: 1/2,
+            height: 1/4,
+            backgroundColor: '#fff',
+            alignItems: 'center'}
+          }
+        >
+            
+          <CardMedia
+            component='img'
+            sx={{height: '350px', width: 'auto'}}
+            image={ product.image }
+            alt='Product Image'
+            style={{float: 'right', padding: '2%'}}
+          />
          
-            <div className="box">
+          <CardContent sx={{ flex: '1 0 auto' }}>
+            {!product.isAuction ? (
+              <div></div>
+              ) : (
+                <Typography variant="h6" sx={{color: "red"}} display='inline'>
+                  (Auction){' '}
+                </Typography>)
+            }
+            <Typography variant="h6" display='inline'>
+              { product.name } 
+            </Typography>
+            <Typography variant="body1">
+              Location: { product.location }
+            </Typography>
+            <br></br>
+            <Typography variant='body2'>
+              { product.description }
+            </Typography>
+            <br></br>
+              
+            {!product.isAuction ? (
+              <Typography variant="h4" color="text.secondary">
+                Price: ${product.price}
+              </Typography> ) : (
               <div>
-                <div className="item-header">
-                  <h1 className='body'>{product.name} </h1>
-                  {
-                    product.bid === null ?
-                    (<span style={{ fontSize: 25}} className='body text-bold'>${product.price}</span>) :
-                    (<span style={{ fontSize: 25 }} className='body text-bold'>Current Bid: ${product.bid}</span>)
-                  }
+                <Typography variant="h4" color="text.secondary">
+                  Current Bid: ${product.bid}
+                </Typography>
+                <Typography variant="h8" sx={{color: "red"}}>
+                  Ends At: {product.endDate.slice(0, 10)} {' '} @ {' '} {product.endDate.slice(11, 16)} [UTC; 24-hour clock]
+                </Typography>
+              </div>)
+            }
+          </CardContent>
+          
+          {!product.isAuction ? (
+            <div>
+              <Button
+                style={{marginLeft: '5%', alignItems: "center", justifyContent: "center"}}
+                onClick={addToCartHandler}
+              >
+                Add to cart
+              </Button>
+
+              <Button
+                style={{marginLeft: '5%', alignItems: "center", justifyContent: "center"}} 
+                onClick={(e) => { e.preventDefault(); window.location.href = `mailto:${product.email}`; }}
+              >
+                Contact
+              </Button>
+
+            </div> ) : (
+            <Form onSubmit={handleShow}>
+              <Button
+                style={{marginLeft: '5%', alignItems: "center", justifyContent: "center"}}
+                type='submit'
+                onClick={tenPercHandler}
+              >
+                10% Increase
+              </Button>
+              <Button
+                style={{marginLeft: '5%', alignItems: "center", justifyContent: "center"}}
+                type='submit'
+                onClick={twentyPercHandler}
+              >
+                20% Increase
+              </Button>
+              <Button
+                style={{marginLeft: '5%', alignItems: "center", justifyContent: "center"}}
+                type='submit'
+                onClick={thirtyPercHandler}
+              >
+                30% Increase
+              </Button>
+              <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Are you sure you would like to bid?</Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                    No
+                  </Button>
+                  <Button variant="primary" onClick={submitHandler}>
+                    Yes
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </Form>)
+          }
+        </Box>
+      </Stack>
+    </React.Fragment>
+
+    // Approach #2:
+
+    // <div className='body'>
+     
+    //   <div className='app'>
+    //     <div class = "d-flex flex-mb-3">
+    //       <Col xs={1}></Col>
+    //       <div class = "d-inline-flex-row p-2 w-200">    
+         
+    //         <div className="box">
+    //           <div>
+    //             <div className="item-header">
+    //               <h1 className='body'>{product.name} </h1>
+    //               {
+    //                 !product.isAuction ?
+    //                 (<span style={{ fontSize: 25}} className='body text-bold'>${product.price}</span>) :
+    //                 (<span style={{ fontSize: 25 }} className='body text-bold'>Current Bid: ${product.bid}</span>)
+    //               }
                   
-                </div>
-                <p>{product.description}</p>
-                {product.bid === null
-                ? (<h3>Item is not up for bidding</h3>) :
-                (
-                  <Form onSubmit={handleShow}>
-                    {/* <Form.Group controlId='bid'>
-                      <Form.Label>Enter your bid</Form.Label>
-                      <Form.Control
-                        required
-                        type = 'number'
-                        placeholder='Enter bid...'
-                        value={initialBidPrice}
-                        onChange={(e) => setInitialBidPrice(e.target.value)}
-                      >
-                      </Form.Control>
-                    </Form.Group> */}
-                    <Button
-                      clasName='btn-sm'
-                      type='submit'
-                      onClick={tenPercHandler}
-                    >
-                      10% Increase
-                    </Button>
-                    <Button
-                      clasName='btn-sm'
-                      type='submit'
-                      onClick={twentyPercHandler}
-                    >
-                      20% Increase
-                    </Button>
-                    <Button
-                      clasName='btn-sm'
-                      type='submit'
-                      onClick={thirtyPercHandler}
-                    >
-                      30% Increase
-                    </Button>
-                  <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Modal heading</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Are you sure you would like to bid?</Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={handleClose}>
-                        No
-                      </Button>
-                      <Button variant="primary" onClick={submitHandler}>
-                        Yes
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                  </Form>
-                )
-                }
+    //             </div>
+    //             <p>{product.description}</p>
+    //             {!product.isAuction
+    //             ? (<h3>Item is not up for bidding</h3>) :
+    //             (
+    //               <Form onSubmit={handleShow}>
+    //                 {/* <Form.Group controlId='bid'>
+    //                   <Form.Label>Enter your bid</Form.Label>
+    //                   <Form.Control
+    //                     required
+    //                     type = 'number'
+    //                     placeholder='Enter bid...'
+    //                     value={initialBidPrice}
+    //                     onChange={(e) => setInitialBidPrice(e.target.value)}
+    //                   >
+    //                   </Form.Control>
+    //                 </Form.Group> */}
+    //                 <Button
+    //                   clasName='btn-sm'
+    //                   type='submit'
+    //                   onClick={tenPercHandler}
+    //                 >
+    //                   10% Increase
+    //                 </Button>
+    //                 <Button
+    //                   clasName='btn-sm'
+    //                   type='submit'
+    //                   onClick={twentyPercHandler}
+    //                 >
+    //                   20% Increase
+    //                 </Button>
+    //                 <Button
+    //                   clasName='btn-sm'
+    //                   type='submit'
+    //                   onClick={thirtyPercHandler}
+    //                 >
+    //                   30% Increase
+    //                 </Button>
+    //               <Modal show={show} onHide={handleClose}>
+    //                 <Modal.Header closeButton>
+    //                   <Modal.Title>Modal heading</Modal.Title>
+    //                 </Modal.Header>
+    //                 <Modal.Body>Are you sure you would like to bid?</Modal.Body>
+    //                 <Modal.Footer>
+    //                   <Button variant="secondary" onClick={handleClose}>
+    //                     No
+    //                   </Button>
+    //                   <Button variant="primary" onClick={submitHandler}>
+    //                     Yes
+    //                   </Button>
+    //                 </Modal.Footer>
+    //               </Modal>
+    //               </Form>
+    //             )
+    //             }
                
-              </div>
-              <div className ="button-features">
-                <Button onClick={addToCartHandler} className="cart"><Cart size={20}></Cart> Add to cart</Button>
-                {
-                  product.bid === null ?
-                  (
-                    <PopupComp ></PopupComp>
-                  ) : (
-                    <h3>
-                      {day} days, {hour} hours, {min} minutes, {sec} seconds
-                    </h3>
-                  )
-                }
+    //           </div>
+    //           <div className ="button-features">
+    //             <Button onClick={addToCartHandler} className="cart"><Cart size={20}></Cart> Add to cart</Button>
+    //             {
+    //               !product.isAuction ?
+    //               (
+    //                 <PopupComp ></PopupComp>
+    //               ) : (
+    //                 <h3>
+    //                   Bidding Ends at {product.endDate}
+    //                 </h3>
+    //               )
+    //             }
   
-                <Button onClick={(e) => { e.preventDefault(); window.location.href = `mailto:${product.email}`; }} className ="margin-left message"> <Chat size={18}></Chat> Contact </Button>
-                <span className='margin-left-location text-bold'>{product.location}</span>
+    //             <Button onClick={(e) => { e.preventDefault(); window.location.href = `mailto:${product.email}`; }} className ="margin-left message"> <Chat size={18}></Chat> Contact </Button>
+    //             <span className='margin-left-location text-bold'>{product.location}</span>
                
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
    
-    </div>
+    // </div>
   )
 }
  

@@ -14,7 +14,8 @@ from rest_framework import status
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 import django
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+from django.utils.timezone import utc
 
 from base import serializer
 # Create your views here.
@@ -134,26 +135,25 @@ def updateProduct(request, pk):
     product = Product.objects.get(_id=pk)
 
     product.name = data['name']
-    if (product.price != 0): 
-        product.price = data['price']
-    else:
-        product.bid = data['initialBidPrice']
-
     product.description = data['description']
     product.location = data['itemLocation']
     product.email = data['email']
     product.isBought = data['isBought']
     product.boughtBy = data['boughtBy']
-    if (product.when != django.utils.timezone.now): 
-        product.when = data['date']
-        for fmt in ('%Y-%m-%d', '%Y-%m-%dT%H:%M:%SZ'):
-            try:
-                dt_obj = datetime.strptime(product.when, fmt)
-            except ValueError:
-                pass
-            
-        ms = dt_obj.timestamp() * 1000
-        product.milliseconds = ms 
+
+    product.isAuction = data['isAuction']
+
+    if (product.isAuction): 
+        product.hours = int(data['date'])
+        numHours = product.hours * timedelta(hours=1)
+        product.endDate = datetime.now(timezone.utc) + numHours
+        product.bid = data['initialBidPrice']
+    else:
+        product.price = data['price']
+
+    
+    
+    
 
 
     product.save()
