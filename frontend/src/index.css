@@ -366,3 +366,25 @@ align-items: center;
 width: 20px;
 color:transparent;
 }
+
+/* Register Screen Profile */
+.app-registerscreen{
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 0 5px #ccc;
+  background-color: #ffffff;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+}
+ 
+.length-boxes{
+  width: 100%;
+}
+ 
+/* Login Screen Profile */
+.length-boxes-login{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}

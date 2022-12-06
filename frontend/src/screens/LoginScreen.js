@@ -6,17 +6,17 @@ import Loader from '../components/Loader'
 import { login } from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
-
-
+ 
+ 
 function LoginScreen() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
+ 
     const dispatch = useDispatch()
-
+ 
     const location = useLocation()
     const redirect = location.search ? location.search.split('=')[1] : '/home'
-
+ 
     const userLogin = useSelector(state => state.userLogin)
     const { error, loading, userInfo } = userLogin
     let navigate = useNavigate()
@@ -25,59 +25,64 @@ function LoginScreen() {
             navigate(redirect)
         }
     }, [userInfo, redirect])
-
+ 
     const submitHandler = (e) => {
         e.preventDefault()
         dispatch(login(email, password))
     }
-  
+ 
   return (
-    <FormContainer>
-        <h1>Sign In</h1>
-        {error && <Alert variant='danger'>Username and/or Password is incorrect </Alert>}
-        {loading && <Loader />}
-        <Form onSubmit={submitHandler}>
-            <Form.Group controlId='email'>
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control
-                    type='email'
-                    placeholder='Enter Email'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                >
-                </Form.Control>
-            </Form.Group>
+    <React.Fragment>
+        {/* Add gap between header and login box */}
+        <div style={{background: '#CFAE70', height: '10vh'}}></div>
 
-            <Form.Group controlId='password'>
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                    type='password'
-                    placeholder='Enter Password'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                >
-                </Form.Control>
-            </Form.Group>
-            <br></br>
-            <Button
-                type='submit'
-                variant='outline-warning'
-                className='button rounded textColor'
-            >
-                Sign In
-            </Button>
-        </Form>
-
-        <Row className='py-3'>
-            <Col>
-                New Customer? <Link
-                    to={redirect ? `/register?redirect=${redirect}` : '/register'}>
-                    Register
-                    </Link>
-            </Col>
-        </Row>
-    </FormContainer>
+        {/* login box */}
+        <div className='product-slider'>
+            <div className='app-registerscreen'>
+                <div className='detail'>
+                <h1 style={{ fontWeight: 'bold', textAlign: 'center' }}>Login</h1>
+                {error && <Alert variant='danger'>Username and/or Password is incorrect </Alert>}
+                {loading && <Loader />}
+                    <Form onSubmit={submitHandler} className = 'length-boxes-login'>
+                        <Form.Group controlId='email'>
+                            <Form.Control
+                                type='email'
+                                placeholder='Email Address'
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                        <br></br>
+                        <Form.Group controlId='password'>
+                            <Form.Control
+                                type='password'
+                                placeholder='Password'
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                        <br></br>
+                        <Button type='submit'>
+                            Sign In
+                        </Button>
+                    </Form>
+                <br></br>
+        
+                <div style={{textAlign: 'center'}}>
+                    New Customer? <Link
+                        to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+                        Register
+                        </Link>
+                </div>
+                <br></br>
+        
+                </div>
+            </div>
+        </div>
+    </React.Fragment>
   )
 }
-
+ 
 export default LoginScreen
