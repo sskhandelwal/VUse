@@ -196,7 +196,7 @@ function CreateAuctionScreen() {
                 <br></br>
                 <div class="form-group">
                 <Form.Group controlId="validationFormik03">
-                  <Form.Label>{"\n"}How many hours would you like the auctrion to be open for?</Form.Label>
+                  <Form.Label>{"\n"}How many hours would you like the auction to be open for?</Form.Label>
                   <Form.Control
                     type = 'number'
                     placeholder='Enter hours...'
