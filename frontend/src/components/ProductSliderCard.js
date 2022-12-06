@@ -19,13 +19,24 @@ export const ProductSliderCard = ({ product }) => {
                     style={{padding: '5%', margin: 'auto', display: 'block'}}
                 />
 
-                <Typography
-                    variant="h4"
-                    color='text.secondary'
-                    style={{textAlign: 'center'}}
-                >
-                    { product?.name } | ${ product?.price }
-                </Typography>
+                { !product?.isAuction ? (
+                    <Typography
+                        variant="h4"
+                        color='text.secondary'
+                        style={{textAlign: 'center'}}
+                    >
+                        { product?.name } | ${ product?.price }
+                    </Typography>
+                ) : (
+                    <Typography
+                        variant="h6"
+                        color='text.secondary'
+                        style={{textAlign: 'center'}}
+                    >
+                        (Auction) { product?.name } | ${ product?.bid }
+                    </Typography>
+                )}
+
             </Card>
         </Link>
     )
