@@ -82,9 +82,17 @@ function ProductScreen() {
       boughtBy: product.boughtBy, 
       date: product.when
     }))
-    navigate(`/product/${productId}`)
   }
  
+  const tenPercHandler = () => {
+    setInitialBidPrice(product.bid * 1.1)
+  }
+  const twentyPercHandler = () => {
+    setInitialBidPrice(product.bid * 1.2)
+  }
+  const thirtyPercHandler = () => {
+    setInitialBidPrice(product.bid * 1.3)
+  }
    
   return (
    
@@ -126,7 +134,7 @@ function ProductScreen() {
                 ? (<h3>Item is not up for bidding</h3>) :
                 (
                   <Form onSubmit={handleShow}>
-                    <Form.Group controlId='bid'>
+                    {/* <Form.Group controlId='bid'>
                       <Form.Label>Enter your bid</Form.Label>
                       <Form.Control
                         required
@@ -136,14 +144,28 @@ function ProductScreen() {
                         onChange={(e) => setInitialBidPrice(e.target.value)}
                       >
                       </Form.Control>
-                    </Form.Group>
+                    </Form.Group> */}
                     <Button
-                        type='submit'
-                        variant='outline-warning'
-                        className='button rounded textColor'
+                      clasName='btn-sm'
+                      type='submit'
+                      onClick={tenPercHandler}
                     >
-                        Confirm
-                  </Button>
+                      10% Increase
+                    </Button>
+                    <Button
+                      clasName='btn-sm'
+                      type='submit'
+                      onClick={twentyPercHandler}
+                    >
+                      20% Increase
+                    </Button>
+                    <Button
+                      clasName='btn-sm'
+                      type='submit'
+                      onClick={thirtyPercHandler}
+                    >
+                      30% Increase
+                    </Button>
                   <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                       <Modal.Title>Modal heading</Modal.Title>

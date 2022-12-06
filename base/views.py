@@ -146,7 +146,12 @@ def updateProduct(request, pk):
     product.boughtBy = data['boughtBy']
     if (product.when != django.utils.timezone.now): 
         product.when = data['date']
-        dt_obj = datetime.strptime(product.when, '%Y-%m-%d')
+        for fmt in ('%Y-%m-%d', '%Y-%m-%dT%H:%M:%SZ'):
+            try:
+                dt_obj = datetime.strptime(product.when, fmt)
+            except ValueError:
+                pass
+            
         ms = dt_obj.timestamp() * 1000
         product.milliseconds = ms 
 

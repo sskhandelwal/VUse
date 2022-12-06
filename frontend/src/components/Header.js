@@ -112,6 +112,17 @@ function Header() {
                   My Orders
                 </NavDropdown.Item>
               </LinkContainer>
+              {userInfo.isAdmin ?
+              (
+                <LinkContainer to='/adminscreen'>
+                  <NavDropdown.Item>
+                    Admin: See All Products
+                  </NavDropdown.Item>
+                </LinkContainer>
+              ) : (
+                ''
+              )}
+              
               <NavDropdown.Item onClick={handleShow}>
                 Create Listing
               </NavDropdown.Item>

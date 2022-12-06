@@ -14,6 +14,7 @@ import MyProductScreen from './screens/MyProductScreen'
 import LandingScreen from './screens/LandingScreen'
 import MyOrderScreen from './screens/MyOrderScreen'
 import CreateAuctionScreen from './screens/CreateAuctionScreen'
+import AdminProductPage from './screens/AdminProductPage'
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path='/profile/' element={<ProfileScreen/>}/>
             <Route path='/orders/' element={<MyOrderScreen/>}/>
             <Route path='/myproducts/' element={<MyProductScreen/>}/>
+            <Route path='/adminscreen/' element={<AdminProductPage/>}/>
           </Routes>
         {/* </Container>
       </main> */}
