@@ -20,15 +20,28 @@ export const ProductCard = ({ product }) => {
             }}>
                 <Col sx={{flexDirection: 'column' }}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
-                        <Typography variant="h6">
-                            { 
-                                product.name.length > 30 ? (
-                                    product.name.slice(0, 30) + '...'
-                                ) : (
-                                    product.name
-                                )
-                            }
-                        </Typography>
+                        {!product.isAuction ? (
+                            <Typography variant="h6">
+                                { 
+                                    product.name.length > 30 ? (
+                                        product.name.slice(0, 30) + '...'
+                                    ) : (
+                                        product.name
+                                    )
+                                }
+                            </Typography>
+                        ) : (
+                            <Typography variant="h6">
+                                { 
+                                    product.name.length > 20 ? (
+                                        '(Auction) ' + product.name.slice(0, 20) + '...'
+                                    ) : (
+                                        '(Auction) ' + product.name
+                                    )
+                                }
+                            </Typography>
+                        )}
+                        
                         <Typography variant='body1'>
                             { 
                                 product.description.length > 50 ? (
@@ -41,7 +54,7 @@ export const ProductCard = ({ product }) => {
                             <br></br>
                         </Typography>
                         {
-                            product.bid === null ?
+                            !product.isAuction ?
                             (
                                 <Typography variant="h4" color="text.secondary">
                                     ${product.price}
