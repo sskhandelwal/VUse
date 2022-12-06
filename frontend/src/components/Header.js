@@ -156,7 +156,7 @@ function Header() {
           {/* VUSE links to landing */}
           <LinkContainer to='/'>
             <Navbar.Brand>
-              VUse
+              V-Use
             </Navbar.Brand>
           </LinkContainer>
 
