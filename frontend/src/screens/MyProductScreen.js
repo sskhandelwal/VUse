@@ -67,12 +67,12 @@ function ProductListScreen({ }) {
                                             <td>{product._id}</td>
                                             <td>{product.name}</td>
                                             {
-                                                product.bid === null ?
+                                                !product.isAuction ?
                                                 (
                                                     <td>${product.price}</td>
                                                 ) :
                                                 (
-                                                    <td>${product.bid}</td>
+                                                    <td>Current Bid: ${product.bid}</td>
                                                 )
                                             }
                                             
