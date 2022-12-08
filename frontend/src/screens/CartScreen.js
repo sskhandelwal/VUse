@@ -17,6 +17,9 @@ function CartScreen({ history }) {
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
 
+  const productDetails = useSelector(state => state.productDetails)
+  const { product } = productDetails
+
   useEffect(() => {
     //if the id exists, add it to the cart
     if(productId) {
@@ -43,6 +46,7 @@ function CartScreen({ history }) {
           itemLocation: item.location,  
           isBought: true,
           boughtBy: userInfo.id,
+          isAuction: product.isAuction,
         })),
         dispatch(removeFromCart(item.product))
       ))
